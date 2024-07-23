@@ -84,11 +84,6 @@ public class MonsterController : MonoBehaviour
         Sm.SetState(DicState[MonsterState.Idle]);
     }
 
-    public void HitEnd()
-    {
-        Sm.SetState(DicState[MonsterState.Move]);
-    }
-
     public void SkillEnd()
     {
         Sm.SetState(DicState[MonsterState.Move]);

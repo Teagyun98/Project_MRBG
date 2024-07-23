@@ -33,7 +33,7 @@ AnimatorState:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Bat_Hit
-  m_Speed: 0.03
+  m_Speed: 0.05
   m_CycleOffset: 0
   m_Transitions:
   - {fileID: 8839918940880302997}

@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class Warm : MonsterController
+public class Goblin : MonsterController
 {
     public override void Start()
     {
@@ -14,11 +14,21 @@ public class Warm : MonsterController
 
     public void Skill()
     {
-        transform.position = transform.position + new Vector3(1f, 0, 0);
+        MonsterController first = Gm.FirstMonster();
+
+        if(first == null || first == this)
+            transform.position = transform.position + new Vector3(0.5f, 0, 0);
+        else
+        {
+            float firstPosX = first.transform.position.x;
+
+            first.transform.position = new Vector3(transform.position.x, first.transform.position.y, first.transform.position.z);
+            transform.position = new Vector3(firstPosX, transform.position.y, transform.position.z);
+        }
     }
 }
 
-public class WarmSkill : IMonsterState<MonsterController>
+public class GoblinSkill : IMonsterState<MonsterController>
 {
     private MonsterController controller;
 

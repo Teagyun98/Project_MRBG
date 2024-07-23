@@ -113,6 +113,18 @@ public class GameManager : MonoBehaviour
         return posX < 2.4f ? posX : 2.4f;
     }
 
+    public MonsterController FirstMonster()
+    {
+        MonsterController result = null;
+
+        foreach (MonsterController monster in ReadyMonsterList)
+            if(RankingList.Contains(monster) == false)
+                if (result == null || (result != null && result.transform.position.x < monster.transform.position.x))
+                    result = monster;
+
+        return result;
+    }
+
     public List<MonsterController> OtherMonsterList(MonsterController me)
     {
         return ReadyMonsterList.Where(p => p != me).ToList();

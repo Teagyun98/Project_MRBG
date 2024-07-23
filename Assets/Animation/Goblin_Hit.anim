@@ -6,7 +6,7 @@ AnimationClip:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Bug_Hit
+  m_Name: Goblin_Hit
   serializedVersion: 7
   m_Legacy: 0
   m_Compressed: 0
@@ -21,9 +21,9 @@ AnimationClip:
   - serializedVersion: 2
     curve:
     - time: 0
-      value: {fileID: -2068959897, guid: d1765ea166730564baa05da299b7b27e, type: 3}
+      value: {fileID: 1833804358, guid: c6ed195eeed2e7f4da822e6c24a07dce, type: 3}
     - time: 0.083333336
-      value: {fileID: -1012879216, guid: d1765ea166730564baa05da299b7b27e, type: 3}
+      value: {fileID: 998452377, guid: c6ed195eeed2e7f4da822e6c24a07dce, type: 3}
     attribute: m_Sprite
     path: 
     classID: 212
@@ -46,8 +46,8 @@ AnimationClip:
       isIntCurve: 0
       isSerializeReferenceCurve: 0
     pptrCurveMapping:
-    - {fileID: -2068959897, guid: d1765ea166730564baa05da299b7b27e, type: 3}
-    - {fileID: -1012879216, guid: d1765ea166730564baa05da299b7b27e, type: 3}
+    - {fileID: 1833804358, guid: c6ed195eeed2e7f4da822e6c24a07dce, type: 3}
+    - {fileID: 998452377, guid: c6ed195eeed2e7f4da822e6c24a07dce, type: 3}
   m_AnimationClipSettings:
     serializedVersion: 2
     m_AdditiveReferencePoseClip: {fileID: 0}

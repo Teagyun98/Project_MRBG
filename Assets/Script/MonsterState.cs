@@ -136,10 +136,14 @@ public class MonsterHit : IMonsterState<MonsterController>
 {
     private MonsterController controller;
 
+    float hitTime;
+
     public void OperateEnter(MonsterController sender)
     {
         controller = sender;
         controller.Animator.SetBool("Hit", true);
+
+        hitTime = 10;
     }
 
     public void OperateExit(MonsterController sender)
@@ -149,7 +153,10 @@ public class MonsterHit : IMonsterState<MonsterController>
 
     public void OperateFixedUpdate(MonsterController sender)
     {
-
+        if (hitTime < 0)
+            controller.Sm.SetState(controller.DicState[MonsterState.Move]);
+        else
+            hitTime -= Time.fixedDeltaTime * controller.Gm.GameSpeed;
     }
 }
 
