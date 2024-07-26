@@ -127,7 +127,13 @@ public class GameManager : MonoBehaviour
 
     public List<MonsterController> OtherMonsterList(MonsterController me)
     {
-        return ReadyMonsterList.Where(p => p != me).ToList();
+        return ReadyMonsterList.Where(p => p != me && RankingList.Contains(p) == false).ToList();
+    }
+
+    // 현재 도착 하지 않고 달리고 있는 몬스터 반환
+    public List<MonsterController> RunningMonsterList()
+    {
+        return ReadyMonsterList.Where(p => RankingList.Contains(p) == false).ToList();
     }
 
     public void Goal(MonsterController monster)

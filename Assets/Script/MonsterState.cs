@@ -1,4 +1,4 @@
-using UnityEngine;
+ï»¿using UnityEngine;
 
 public enum MonsterState
 {
@@ -21,29 +21,29 @@ public class StateMachine<T>
 
     public IMonsterState<T> CurState { get; set; }
 
-    // ÇÔ¼öÀÇ »ı¼ºÀÚ
+    // í•¨ìˆ˜ì˜ ìƒì„±ì
     public StateMachine(T sender, IMonsterState<T> state)
     {
-        // »ı¼ºµÇ¸ç m_senderº¯¼ö¿Í ±âº» »óÅÂ ¼¼ÆÃ
+        // ìƒì„±ë˜ë©° m_senderë³€ìˆ˜ì™€ ê¸°ë³¸ ìƒíƒœ ì„¸íŒ…
         m_sender = sender;
         SetState(state);
     }
 
-    // »óÅÂ ¼³Á¤ ÇÔ¼ö
+    // ìƒíƒœ ì„¤ì • í•¨ìˆ˜
     public void SetState(IMonsterState<T> state)
     {
-        // StateMachineÀÌ »ı¼ºµÇÁö ¾Ê¾Ò°Å³ª ÀÌ¹Ì ¹Ù²ğ »óÅÂ¿Í °°´Ù¸é ¹İÈ¯
+        // StateMachineì´ ìƒì„±ë˜ì§€ ì•Šì•˜ê±°ë‚˜ ì´ë¯¸ ë°”ë€” ìƒíƒœì™€ ê°™ë‹¤ë©´ ë°˜í™˜
         if (m_sender == null || CurState == state)
             return;
 
-        // ´Ù¸¥ »óÅÂ¿¡ ÀÖ¾ú´Ù¸é ¹Ù²î±â Àü »óÅÂ¿¡¼­ ºüÁ®³ª¿À±â À§ÇØ ExitÇÔ¼ö ½ÇÇà
+        // ë‹¤ë¥¸ ìƒíƒœì— ìˆì—ˆë‹¤ë©´ ë°”ë€Œê¸° ì „ ìƒíƒœì—ì„œ ë¹ ì ¸ë‚˜ì˜¤ê¸° ìœ„í•´ Exití•¨ìˆ˜ ì‹¤í–‰
         if (CurState != null)
             CurState.OperateExit(m_sender);
 
-        // »óÅÂ º¯°æ
+        // ìƒíƒœ ë³€ê²½
         CurState = state;
 
-        // »óÅÂ°¡ º¯°æµÇ¾úÀ¸¸é º¯°æµÈ »óÅÂÀÇ Enter ÇÔ¼ö ½ÇÇà
+        // ìƒíƒœê°€ ë³€ê²½ë˜ì—ˆìœ¼ë©´ ë³€ê²½ëœ ìƒíƒœì˜ Enter í•¨ìˆ˜ ì‹¤í–‰
         if (CurState != null)
             CurState.OperateEnter(m_sender);
     }
@@ -117,7 +117,7 @@ public class MonsterMove : IMonsterState<MonsterController>
         }
         else if(controller.transform.position.x > controller.Line.startPoint.position.x + (float)(Mathf.Abs(controller.Line.startPoint.position.x) + Mathf.Abs(controller.Line.endPoint.position.x)) / 3f)
         {
-            // 3/1ÁöÁ¡
+            // 3/1ì§€ì 
             if(controller.skill == false && controller.Cm.Target == null)
             {
                 controller.SetSpeed(Random.Range(0.001f, 0.0015f));
@@ -161,7 +161,7 @@ public class MonsterHit : IMonsterState<MonsterController>
 }
 
 
-// °¢ ¸ó½ºÅÍ¸¶´Ù ±¸ÇöÇÏ°Ô µÉ ½ºÅ³ »óÅÂ º£ÀÌ½º
+// ê° ëª¬ìŠ¤í„°ë§ˆë‹¤ êµ¬í˜„í•˜ê²Œ ë  ìŠ¤í‚¬ ìƒíƒœ ë² ì´ìŠ¤
 public class MonsterSkill : IMonsterState<MonsterController>
 {
     private MonsterController controller;

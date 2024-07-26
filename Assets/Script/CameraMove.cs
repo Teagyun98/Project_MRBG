@@ -57,7 +57,12 @@ public class CameraMove : MonoBehaviour
             transform.position = Vector3.Lerp(transform.position, movePos, Time.fixedDeltaTime * 5 * gm.GameSpeed);
         }
         else
+        {
+            if (gm.GetGameScreen().transform.localScale.x != 1)
+                gm.GetGameScreen().transform.localScale = Vector3.Lerp(gm.GetGameScreen().transform.localScale, new Vector3(1, 1, 1), Time.fixedDeltaTime * 5 * gm.GameSpeed);
+
             transform.position = new Vector3(0, 0, -10);
+        }
     }
 
     public void FocusCamera(MonsterController monster)
