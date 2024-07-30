@@ -9,6 +9,7 @@ public class UserData : MonoBehaviour
 
     private void Start()
     {
+        // 게임 시작 시 저장되 데이터가 있는지 확인한 후 데이터를 불러오거나 새로운 데이터 추가
         if (PlayerPrefs.HasKey("BP") == true)
             BettingPoint = PlayerPrefs.GetInt("BP");
         else

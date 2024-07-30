@@ -1,4 +1,4 @@
-using TMPro;
+﻿using TMPro;
 using UnityEngine;
 using Zenject;
 
@@ -30,8 +30,10 @@ public class Bank : MonoBehaviour
         saveText.text = $"Saved:{userData.Saved}BP";
     }
 
+    // BP를 저장하는 함수
     public void SaveMoney(int num)
     {
+        // 레이스 중에는 불가능
         if (gm.Race == true)
         {
             gm.Warning("It can't be done during a race.");
@@ -46,6 +48,7 @@ public class Bank : MonoBehaviour
         SetText();
     }
 
+    // BP를 빌리는 함수
     public void OweMoney(int num)
     {
         if (gm.Race == true)
@@ -54,6 +57,7 @@ public class Bank : MonoBehaviour
             return;
         }
 
+        // 한 경기에 최대로 빌릴 수 있는 금액 제한
         if(userData.BettingPoint >= 100 && userData.Saved <= 0)
         {
             gm.Warning("You exceeded the limit.");

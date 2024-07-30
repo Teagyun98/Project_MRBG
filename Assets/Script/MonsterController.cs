@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using Zenject;
 
@@ -31,6 +31,7 @@ public class MonsterController : MonoBehaviour
 
     public virtual void Update()
     {
+        // 몬스터가 endLine에 도착하는 것보다 조금 빠른 시점에 레이스 도착 지점을 만들어야 하여 따로 레이스의 Goal지점을 설정
         if (Gm.Race == true && Gm.RankingList.Contains(this) == false && Line.endPoint.position.x - transform.position.x < 0.1f)
             Gm.Goal(this);
     }
@@ -59,13 +60,13 @@ public class MonsterController : MonoBehaviour
 
         SetSpeed(Random.Range(0.001f, 0.002f));
 
-        // ���������� ������ �̵�
+        // 시작점으로 포지션 이동
         transform.position = Line.startPoint.position;
 
         if(Animator != null)
             Animator.speed = Gm.GameSpeed;
 
-        // ĳ���� Ȱ��ȭ
+        // 캐릭터 활성화
         gameObject.SetActive(true);
     }
 

@@ -21,7 +21,6 @@ public class StateMachine<T>
 
     public IMonsterState<T> CurState { get; set; }
 
-    // 함수의 생성자
     public StateMachine(T sender, IMonsterState<T> state)
     {
         // 생성되며 m_sender변수와 기본 상태 세팅
@@ -72,10 +71,7 @@ public class MonsterIdle : IMonsterState<MonsterController>
         controller.Animator.SetBool("Idle", false);
     }
 
-    public void OperateFixedUpdate(MonsterController sender)
-    {
-
-    }
+    public void OperateFixedUpdate(MonsterController sender) { }
 }
 
 public class MonsterMove : IMonsterState<MonsterController>
@@ -95,10 +91,13 @@ public class MonsterMove : IMonsterState<MonsterController>
 
     public void OperateFixedUpdate(MonsterController sender)
     {
+        // 각 몬스터들은 자신이 가지고 있는 endPoint를 향해 나아감
         controller.transform.position = Vector3.MoveTowards(controller.transform.position, controller.Line.endPoint.position, controller.Speed * controller.Gm.GameSpeed);
 
+        // 정해진 지점을 통과 할 때 마다 스킬의 발동 여부와 속도 재설정
         if (controller.transform.position.x > controller.Line.endPoint.position.x - (float)(Mathf.Abs(controller.Line.startPoint.position.x) + Mathf.Abs(controller.Line.endPoint.position.x)) / 3f)
         {
+            //3/2
             if (controller.skill == false && controller.Cm.Target == null)
             {
                 controller.SetSpeed(Random.Range(0.001f, 0.0015f));
@@ -109,6 +108,7 @@ public class MonsterMove : IMonsterState<MonsterController>
         }
         else if (controller.transform.position.x > controller.Line.endPoint.position.x - (float)(Mathf.Abs(controller.Line.startPoint.position.x) + Mathf.Abs(controller.Line.endPoint.position.x)) / 2f)
         {
+            // 2/1
             if (controller.skill == true)
             {
                 controller.SetSpeed(Random.Range(0.001f, 0.0015f));
@@ -153,6 +153,7 @@ public class MonsterHit : IMonsterState<MonsterController>
 
     public void OperateFixedUpdate(MonsterController sender)
     {
+        // 공격을 받으면 일정시간 동안 멈추어야하고 스킬을 사용 중이였다면 풀린다.
         if (hitTime < 0)
             controller.Sm.SetState(controller.DicState[MonsterState.Move]);
         else
@@ -177,8 +178,5 @@ public class MonsterSkill : IMonsterState<MonsterController>
         controller.Animator.SetBool("Skill", false);
     }
 
-    public void OperateFixedUpdate(MonsterController sender)
-    {
-
-    }
+    public void OperateFixedUpdate(MonsterController sender) { }
 }

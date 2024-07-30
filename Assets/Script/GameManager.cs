@@ -22,7 +22,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private List<Line> lines;
     [SerializeField] private List<MonsterController> monsters;
     [SerializeField] private Display display;
-    [SerializeField] private BettingPanle bp;
+    [SerializeField] private BettingPanel bp;
     [SerializeField] private TextMeshProUGUI speedText;
     [SerializeField] private GameObject warningPanel;
     [SerializeField] private TextMeshProUGUI warningText;
@@ -82,7 +82,7 @@ public class GameManager : MonoBehaviour
             ReadyMonsterList[i].SetLine(lines[i]);
 
         // 베팅 패널 세팅은 경주에 참가하는 몬스터를 뽑고 해야함
-        bp.Set();
+        bp.Init();
 
         // 레일에 몬스터들을 세운다.
         // 각 몬스터들의 상태와 골인 지점을 설정한다.
