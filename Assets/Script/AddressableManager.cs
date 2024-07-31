@@ -59,6 +59,7 @@ public class AddressableManager : MonoBehaviour
                         {
                             // 다운로드 완료
                             endCount++;
+                            Debug.Log("다운 완료");
                             UpdateDownloadUI(fileCount, endCount, size, 1.0f);
 
                             // 다운로드가 끝나면 메모리 해제
