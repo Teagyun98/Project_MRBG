@@ -29,18 +29,6 @@ MonoBehaviour:
     m_SerializedLabels:
     - Image
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 159ed2f8f137fbc43a9e082b79db5d65
-    m_Address: Assets/Scenes
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - Scene
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 08beed25ec4480444937e7ad0cbd7f53
-    m_Address: Assets/Script
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - Script
-    FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: ff7fd0ae437589d4580aa9fd21c2cd10, type: 2}
   m_SchemaSet:
