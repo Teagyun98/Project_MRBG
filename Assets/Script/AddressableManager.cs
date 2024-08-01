@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -25,7 +24,7 @@ public class AddressableManager : MonoBehaviour
 
     public void Press()
     {
-        if(download == false)
+        if (download == false)
         {
             press.gameObject.SetActive(false);
 
@@ -48,7 +47,7 @@ public class AddressableManager : MonoBehaviour
             Addressables.GetDownloadSizeAsync(key).Completed += (opSize) =>
             {
                 // 번들의 크기
-                string size = string.Concat(opSize.Result, "byte");
+                string size = string.Concat(float.Parse((opSize.Result / Mathf.Pow(1024, 2)).ToString("N1")), "mb");
 
                 if (opSize.Status == AsyncOperationStatus.Succeeded && opSize.Result > 0)
                 {
@@ -59,7 +58,6 @@ public class AddressableManager : MonoBehaviour
                         {
                             // 다운로드 완료
                             endCount++;
-                            Debug.Log("다운 완료");
                             UpdateDownloadUI(fileCount, endCount, size, 1.0f);
 
                             // 다운로드가 끝나면 메모리 해제
@@ -83,9 +81,9 @@ public class AddressableManager : MonoBehaviour
 
                             return;
                         }
-
-                        StartCoroutine(UpdateDownloadProgress(downloadHandle, fileCount, endCount, size));
                     };
+
+                    StartCoroutine(UpdateDownloadProgress(downloadHandle, fileCount, endCount, size));
                 }
                 else
                 {
@@ -105,27 +103,20 @@ public class AddressableManager : MonoBehaviour
         }
     }
 
-    public void LoadAssetAsync(object key)
+    private void ClearBundle()
     {
-        try
+        foreach(string key in keys)
         {
-            Addressables.LoadAssetAsync<GameObject>(key).Completed += (op) =>
-            {
-                if (op.Status != AsyncOperationStatus.Succeeded)
-                    return;
+            Addressables.ClearDependencyCacheAsync(key);
+        }
 
-                // 로드 완료
-            };
-        }
-        catch(Exception e)
-        {
-            Debug.LogError(e.Message);
-        }
+        Caching.ClearCache();
     }
 
     private void UpdateDownloadUI(int fileCount, int endCount, string size, float percent)
     {
-        downloadText.text = $"{fileCount}/{endCount} : {size}/{percent * 100}%";
+        float _percent = float.Parse((percent * 100f).ToString("N1"));
+        downloadText.text = $"{fileCount}/{endCount} : {size}/{_percent}%";
         downloadPersent.value = percent;
     }
 
@@ -135,6 +126,7 @@ public class AddressableManager : MonoBehaviour
         {
             float percent = downloadHandle.PercentComplete;
             UpdateDownloadUI(fileCount, endCount, size, percent);
+            Debug.Log(downloadText.text);
             yield return null;
         }
     }

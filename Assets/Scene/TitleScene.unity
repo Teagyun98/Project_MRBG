@@ -1188,8 +1188,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   keys:
-  - Animation
   - Image
+  - Animation
   press: {fileID: 1901895511}
   downloadText: {fileID: 1060557629}
   downloadPersent: {fileID: 1086143998}
@@ -1231,7 +1231,7 @@ RectTransform:
   m_AnchorMax: {x: 0.5, y: 0}
   m_AnchoredPosition: {x: 0, y: 200}
   m_SizeDelta: {x: 0, y: 50}
-  m_Pivot: {x: 0.5, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1740155148
 MonoBehaviour:
   m_ObjectHideFlags: 0
