@@ -58,7 +58,7 @@ public class AddressableManager : MonoBehaviour
                         {
                             // 다운로드 완료
                             endCount++;
-                            UpdateDownloadUI(fileCount, endCount, size, 1.0f);
+                            UpdateDownloadUI(size, 1.0f);
 
                             // 다운로드가 끝나면 메모리 해제
                             Addressables.Release(downloadHandle);
@@ -89,7 +89,7 @@ public class AddressableManager : MonoBehaviour
                 {
                     // 이미 다운로드 완료
                     endCount++;
-                    UpdateDownloadUI(fileCount, endCount, size, 1.0f);
+                    UpdateDownloadUI(size, 1.0f);
 
                     if (fileCount == endCount)
                     {
@@ -113,10 +113,10 @@ public class AddressableManager : MonoBehaviour
         Caching.ClearCache();
     }
 
-    private void UpdateDownloadUI(int fileCount, int endCount, string size, float percent)
+    private void UpdateDownloadUI(string size, float percent)
     {
         float _percent = float.Parse((percent * 100f).ToString("N1"));
-        downloadText.text = $"{fileCount}/{endCount} : {size}/{_percent}%";
+        downloadText.text = $"DownLoad : {size}/{_percent}%";
         downloadPersent.value = percent;
     }
 
@@ -125,8 +125,7 @@ public class AddressableManager : MonoBehaviour
         while (!downloadHandle.IsDone)
         {
             float percent = downloadHandle.PercentComplete;
-            UpdateDownloadUI(fileCount, endCount, size, percent);
-            Debug.Log(downloadText.text);
+            UpdateDownloadUI(size, percent);
             yield return null;
         }
     }
