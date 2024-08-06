@@ -1,7 +1,11 @@
-﻿using UnityEngine;
+using UnityEngine;
 
 public class BoxCat : MonsterController
 {
+    private void Awake()
+    {
+        SetSpriteList(Gm.GetAnimSpriteList("BoxCat"));
+    }
     public override void Start()
     {
         base.Start();
@@ -11,6 +15,8 @@ public class BoxCat : MonsterController
         // 말 스킬 추가
         DicState.Add(MonsterState.Skill, new HorseSkill());
     }
+
+    public override void SkillEnd() { }
 }
 
 public class BoxCatSkill : IMonsterState<MonsterController>

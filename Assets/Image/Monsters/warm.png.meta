@@ -136,7 +136,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: warm_0
+      name: Warm_0
       rect:
         serializedVersion: 2
         x: 0
@@ -150,14 +150,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 326c3469ba2ccff46bce4bb77c20620b
-      internalID: -1975853307
+      spriteID: 0f03411c45e7648428a40c08dcf2ccd2
+      internalID: 534596691
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: warm_1
+      name: Warm_1
       rect:
         serializedVersion: 2
         x: 17
@@ -171,14 +171,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: f1f63cf4e799c1a459f2e0ae3b8592cc
-      internalID: -1881948833
+      spriteID: 25e674accb30b59439980f0c6ba7ca65
+      internalID: -151671393
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: warm_2
+      name: Warm_2
       rect:
         serializedVersion: 2
         x: 0
@@ -192,14 +192,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 5f9e66ccfca90ac4ba07d4c5bcda4b2c
-      internalID: -1384470174
+      spriteID: 2ff42cd253dcc7241b585afbe869a522
+      internalID: -2020147500
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: warm_3
+      name: Warm_3
       rect:
         serializedVersion: 2
         x: 17
@@ -213,14 +213,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 99ff6da666d83404a87be8e0e18ffaba
-      internalID: 329276919
+      spriteID: 772785a230f5b1643be7acd21be5520c
+      internalID: 906895534
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: warm_4
+      name: Warm_4
       rect:
         serializedVersion: 2
         x: 0
@@ -234,14 +234,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: fa9e762f69b252d4dab6490584ca7669
-      internalID: 267203556
+      spriteID: ada7691eb3edece4cae3033f8535bc0d
+      internalID: -684152771
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: warm_5
+      name: Warm_5
       rect:
         serializedVersion: 2
         x: 17
@@ -255,14 +255,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: f4a9606d15ec49a41b3c92d2bc5f4444
-      internalID: -1024630764
+      spriteID: a1a3fcc9f1e9e3a449bdf4dbf5edb891
+      internalID: -354458106
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: warm_6
+      name: Warm_6
       rect:
         serializedVersion: 2
         x: 0
@@ -276,14 +276,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b4a8513900ae21f43bb1e1fcc6827979
-      internalID: -821294308
+      spriteID: 106fb1fb7aa3036458b3270ea38a5cbb
+      internalID: 554176449
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: warm_7
+      name: Warm_7
       rect:
         serializedVersion: 2
         x: 17
@@ -297,8 +297,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: baa4e5187df53b042bab8dc3396ada37
-      internalID: 764297649
+      spriteID: f364638e54e7aba4b97e655da9b9372b
+      internalID: -1186338885
       vertices: []
       indices: 
       edges: []
@@ -314,14 +314,14 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      warm_0: -1975853307
-      warm_1: -1881948833
-      warm_2: -1384470174
-      warm_3: 329276919
-      warm_4: 267203556
-      warm_5: -1024630764
-      warm_6: -821294308
-      warm_7: 764297649
+      Warm_0: 534596691
+      Warm_1: -151671393
+      Warm_2: -2020147500
+      Warm_3: 906895534
+      Warm_4: -684152771
+      Warm_5: -354458106
+      Warm_6: 554176449
+      Warm_7: -1186338885
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

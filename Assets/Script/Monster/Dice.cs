@@ -1,7 +1,12 @@
-﻿using UnityEngine;
+using UnityEngine;
 
 public class Dice : MonsterController
-{ 
+{
+    private void Awake()
+    {
+        SetSpriteList(Gm.GetAnimSpriteList("Dice"));
+    }
+
     public override void Start()
     {
         base.Start();

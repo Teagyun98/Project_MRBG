@@ -1,5 +1,10 @@
-﻿public class Reaper : MonsterController
+public class Reaper : MonsterController
 {
+    private void Awake()
+    {
+        SetSpriteList(Gm.GetAnimSpriteList("Reaper"));
+    }
+
     public override void Start()
     {
         base.Start();
@@ -10,8 +15,10 @@
         DicState.Add(MonsterState.Skill, new ReaperSkill());
     }
 
-    public void Skill()
+    public override void Skill_2()
     {
+        base.Skill_2();
+
         foreach (MonsterController monster in Gm.OtherMonsterList(this))
             monster.Sm.SetState(monster.DicState[MonsterState.Hit]);
     }

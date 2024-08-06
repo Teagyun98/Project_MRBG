@@ -1,8 +1,13 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class Slime : MonsterController
 {
+    private void Awake()
+    {
+        SetSpriteList(Gm.GetAnimSpriteList("Slime"));
+    }
+
     public override void Start()
     {
         base.Start();
@@ -13,9 +18,11 @@ public class Slime : MonsterController
         DicState.Add(MonsterState.Skill, new WarmSkill());
     }
 
-    public void Skill()
+    public override void Skill_2()
     {
-        if(Random.Range(0, 10) == 0)
+        base.Skill_2();
+
+        if (Random.Range(0, 10) == 0)
         {
             foreach (MonsterController monster in Gm.OtherMonsterList(this))
                 monster.transform.position = monster.Line.startPoint.transform.position;

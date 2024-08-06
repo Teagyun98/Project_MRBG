@@ -1,4 +1,4 @@
-﻿using Zenject;
+using Zenject;
 
 public class GameInstaller : MonoInstaller
 {

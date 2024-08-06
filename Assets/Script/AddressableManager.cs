@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -6,14 +6,22 @@ using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using Zenject;
 
 public class AddressableManager : MonoBehaviour
 {
+    [Header("ResourceKeys")]
+    [SerializeField] private List<string> spriteKeys;
+
+    [Header("Info")]
     [SerializeField] private List<string> keys;
     [SerializeField] private Button press;
     [SerializeField] private TextMeshProUGUI downloadText;
     [SerializeField] private Slider downloadPersent;
     [SerializeField] private GameObject warning;
+
+    [Header("Repository")]
+    [SerializeField] private ResourceRepository repository;
 
     private bool download;
 
@@ -64,12 +72,7 @@ public class AddressableManager : MonoBehaviour
                             Addressables.Release(downloadHandle);
 
                             if (fileCount == endCount)
-                            {
-                                press.gameObject.SetActive(true);
-                                downloadPersent.gameObject.SetActive(false);
-
-                                download = true;
-                            }
+                                LoadSprite();
                         }
                         else
                         {
@@ -77,13 +80,11 @@ public class AddressableManager : MonoBehaviour
                             press.gameObject.SetActive(true);
                             downloadPersent.gameObject.SetActive(false);
 
-                            download = false;
-
                             return;
                         }
                     };
 
-                    StartCoroutine(UpdateDownloadProgress(downloadHandle, fileCount, endCount, size));
+                    StartCoroutine(UpdateDownloadProgress(downloadHandle, size));
                 }
                 else
                 {
@@ -92,25 +93,10 @@ public class AddressableManager : MonoBehaviour
                     UpdateDownloadUI(size, 1.0f);
 
                     if (fileCount == endCount)
-                    {
-                        press.gameObject.SetActive(true);
-                        downloadPersent.gameObject.SetActive(false);
-
-                        download = true;
-                    }
+                        LoadSprite();
                 }
             };
         }
-    }
-
-    private void ClearBundle()
-    {
-        foreach(string key in keys)
-        {
-            Addressables.ClearDependencyCacheAsync(key);
-        }
-
-        Caching.ClearCache();
     }
 
     private void UpdateDownloadUI(string size, float percent)
@@ -120,7 +106,7 @@ public class AddressableManager : MonoBehaviour
         downloadPersent.value = percent;
     }
 
-    private IEnumerator UpdateDownloadProgress(AsyncOperationHandle downloadHandle, int fileCount, int endCount, string size)
+    private IEnumerator UpdateDownloadProgress(AsyncOperationHandle downloadHandle, string size)
     {
         while (!downloadHandle.IsDone)
         {
@@ -128,5 +114,52 @@ public class AddressableManager : MonoBehaviour
             UpdateDownloadUI(size, percent);
             yield return null;
         }
+    }
+
+    // 미리 사용할 모든 리소스를 로드한다.
+    public void LoadSprite()
+    {
+        Dictionary<string, Sprite> dicSprite = new Dictionary<string, Sprite>();
+
+        foreach(string key in spriteKeys)
+        {
+            AsyncOperationHandle<Sprite> handle = Addressables.LoadAssetAsync<Sprite>(key);
+
+            handle.Completed += (sp) => 
+            {
+                if (sp.Status == AsyncOperationStatus.Succeeded)
+                {
+                    dicSprite.Add(key, sp.Result);
+
+                    UpdateLoadUI("Image", spriteKeys.Count, dicSprite.Count);
+
+                    if (dicSprite.Count == spriteKeys.Count)
+                    {
+                        // 로드한 리소스 전달
+                        repository.SetSpriteResource(dicSprite);
+
+                        press.gameObject.SetActive(true);
+                        downloadPersent.gameObject.SetActive(false);
+
+                        download = true;
+                    }
+
+                    Addressables.Release(handle);
+                }
+                else
+                {
+                    press.gameObject.SetActive(true);
+                    downloadPersent.gameObject.SetActive(false);
+
+                    download = false;
+                }
+            };
+        }
+    }
+
+    private void UpdateLoadUI(string loadState, int fileCount, int nowLoad)
+    {
+        downloadText.text = $"{loadState} Load : {nowLoad}/{fileCount}%";
+        downloadPersent.value = (float)nowLoad / fileCount;
     }
 }

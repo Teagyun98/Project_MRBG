@@ -1,20 +1,25 @@
 public class Bat : MonsterController
 {
+    private void Awake()
+    {
+        SetSpriteList(Gm.GetAnimSpriteList("Bat"));
+    }
     public override void Start()
     {
         base.Start();
 
         SetStateMachine();
 
-        // ∏Æ∆€ Ω∫≈≥ √ﬂ∞°
+        // Î¶¨Ìçº Ïä§ÌÇ¨ Ï∂îÍ∞Ä
         DicState.Add(MonsterState.Skill, new ReaperSkill());
     }
 
-    public void Skill()
+    public override void Skill_2()
     {
+        base.Skill_2();
+
         foreach (MonsterController monster in Gm.OtherMonsterList(this))
             monster.Sm.SetState(monster.DicState[MonsterState.Hit]);
-
     }
 }
 

@@ -1,16 +1,26 @@
-﻿using UnityEngine;
+using UnityEngine;
 
 public class Horse : MonsterController
 {
+    private void Awake()
+    {
+        SetSpriteList(Gm.GetAnimSpriteList("Horse"));
+    }
+
     public override void Start()
     {
         base.Start();
 
         SetStateMachine();
 
+        SetSpriteList(Gm.GetAnimSpriteList("Horse"));
+
         // 말 스킬 추가
         DicState.Add(MonsterState.Skill, new HorseSkill());
     }
+
+    public override void SkillEnd() { }
+
 }
 
 public class HorseSkill : IMonsterState<MonsterController>

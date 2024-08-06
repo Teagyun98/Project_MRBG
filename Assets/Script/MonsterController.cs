@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using UnityEngine;
 using Zenject;
 
@@ -12,7 +12,6 @@ public class MonsterController : MonoBehaviour
     [Inject]
     public void Construct(CameraMove _cameraMove) => Cm = _cameraMove;
 
-
     public StateMachine<MonsterController> Sm { get; private set; }
     public Dictionary<MonsterState, IMonsterState<MonsterController>> DicState { get; private set; }
 
@@ -20,12 +19,16 @@ public class MonsterController : MonoBehaviour
     public float Speed { get; private set; }
     public Animator Animator { get; private set; }
 
-    [SerializeField] private Sprite icon;
+    private SpriteRenderer spr;
+    private List<Sprite> animSpriteList;
+
     public bool skill;
 
     public virtual void Start()
     {
         Animator = GetComponent<Animator>();
+        spr = GetComponent<SpriteRenderer>();
+
         Animator.speed = Gm.GameSpeed;
     }
 
@@ -85,15 +88,70 @@ public class MonsterController : MonoBehaviour
         Sm.SetState(DicState[MonsterState.Idle]);
     }
 
-    public void SkillEnd()
+    public virtual void SkillEnd()
     {
         Sm.SetState(DicState[MonsterState.Move]);
     }
 
     public Sprite GetIcon()
     {
-        return icon;
+        return animSpriteList[0];
     }
 
     public virtual void SendMessage() { }
+
+    public void SetSpriteList(List<Sprite> list)
+    {
+        animSpriteList = list;
+    }
+
+    public void Idle_1()
+    {
+        if(animSpriteList.Count > 0)
+            spr.sprite = animSpriteList[0];
+    }
+
+    public void Idle_2()
+    {
+        if (animSpriteList.Count > 0)
+            spr.sprite = animSpriteList[1];
+    }
+
+    public void Move_1()
+    {
+        if (animSpriteList.Count > 0)
+            spr.sprite = animSpriteList[2];
+    }
+
+    public void Move_2()
+    {
+        if (animSpriteList.Count > 0)
+            spr.sprite = animSpriteList[3];
+    }
+
+    public void Hit_1()
+    {
+        if (animSpriteList.Count > 0)
+            spr.sprite = animSpriteList[4];
+    }
+
+    public void Hit_2()
+    {
+        if (animSpriteList.Count > 0)
+            spr.sprite = animSpriteList[5];
+    }
+
+    public void Skill_1()
+    {
+        if (animSpriteList.Count > 0)
+            spr.sprite = animSpriteList[6];
+    }
+
+    public virtual void Skill_2()
+    {
+        if (animSpriteList.Count > 0)
+            spr.sprite = animSpriteList[7];
+    }
+
+    public void Empty() { }
 }

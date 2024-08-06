@@ -1,7 +1,12 @@
-﻿using UnityEngine;
+using UnityEngine;
 
 public class Goblin : MonsterController
 {
+    private void Awake()
+    {
+        SetSpriteList(Gm.GetAnimSpriteList("Goblin"));
+    }
+
     public override void Start()
     {
         base.Start();
@@ -12,8 +17,10 @@ public class Goblin : MonsterController
         DicState.Add(MonsterState.Skill, new WarmSkill());
     }
 
-    public void Skill()
+    public override void Skill_2()
     {
+        base.Skill_2();
+
         MonsterController first = Gm.FirstMonster();
 
         if(first == null || first == this)

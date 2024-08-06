@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using TMPro;
@@ -32,6 +32,9 @@ public class GameManager : MonoBehaviour
 
     public bool Race { get; private set; }
     public int GameSpeed { get; private set; }
+
+    [Header("Repository")]
+    [SerializeField] private ResourceRepository repository;
 
     private void Start()
     {
@@ -177,5 +180,28 @@ public class GameManager : MonoBehaviour
     public GameObject GetGameScreen()
     {
         return gameScreen;
+    }
+
+    public List<Sprite> GetAnimSpriteList(string name)
+    {
+        List<Sprite> spriteList = new List<Sprite>();
+
+        for(int i = 0; i< 8; i++)
+        {
+            string key = $"Assets/Image/Monsters/{name}.png[{name}_{i}]";
+
+            if (repository.SpriteResource.Keys.Contains(key) == true)
+                spriteList.Add(repository.SpriteResource[key]);
+        }
+
+        return spriteList;
+    }
+
+    public Sprite GetSprite(string key)
+    {
+        if(repository.SpriteResource.Keys.Contains(key) == true)
+            return repository.SpriteResource[key];
+        else
+            return null;
     }
 }

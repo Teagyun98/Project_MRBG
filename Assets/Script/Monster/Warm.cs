@@ -1,7 +1,14 @@
-﻿using UnityEngine;
+using System.Collections.Generic;
+using UnityEngine;
 
 public class Warm : MonsterController
 {
+    private void Awake()
+    {
+        SetSpriteList(Gm.GetAnimSpriteList("Warm"));
+
+    }
+
     public override void Start()
     {
         base.Start();
@@ -12,8 +19,10 @@ public class Warm : MonsterController
         DicState.Add(MonsterState.Skill, new WarmSkill());
     }
 
-    public void Skill()
+    public override void Skill_2()
     {
+        base.Skill_2();
+
         transform.position = transform.position + new Vector3(1f, 0, 0);
     }
 }
