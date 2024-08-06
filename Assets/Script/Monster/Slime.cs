@@ -3,19 +3,16 @@ using UnityEngine;
 
 public class Slime : MonsterController
 {
-    private void Awake()
-    {
-        SetSpriteList(Gm.GetAnimSpriteList("Slime"));
-    }
-
     public override void Start()
     {
         base.Start();
 
         SetStateMachine();
 
+        SetSpriteList(Gm.GetAnimSpriteList("Slime"));
+
         // 슬라임 스킬 추가
-        DicState.Add(MonsterState.Skill, new WarmSkill());
+        DicState.Add(MonsterState.Skill, new SlimeSkill());
     }
 
     public override void Skill_2()

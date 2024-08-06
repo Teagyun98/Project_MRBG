@@ -1,17 +1,14 @@
 using UnityEngine;
 
 public class Orc : MonsterController
-{
-    private void Awake()
-    {
-        SetSpriteList(Gm.GetAnimSpriteList("Orc"));
-    }
-
+{ 
     public override void Start()
     {
         base.Start();
 
         SetStateMachine();
+
+        SetSpriteList(Gm.GetAnimSpriteList("Orc"));
 
         // 오크 스킬 추가
         DicState.Add(MonsterState.Skill, new OrcSkill());

@@ -2,17 +2,14 @@ using UnityEngine;
 
 public class Dice : MonsterController
 {
-    private void Awake()
-    {
-        SetSpriteList(Gm.GetAnimSpriteList("Dice"));
-    }
-
     public override void Start()
     {
         base.Start();
 
         SetStateMachine();
         SetSpeed(0);
+
+        SetSpriteList(Gm.GetAnimSpriteList("Dice"));
 
         // 주사위 스킬 추가
         DicState.Add(MonsterState.Skill, new DiceSkill());

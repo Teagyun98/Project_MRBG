@@ -1,14 +1,12 @@
 public class Bat : MonsterController
 {
-    private void Awake()
-    {
-        SetSpriteList(Gm.GetAnimSpriteList("Bat"));
-    }
     public override void Start()
     {
         base.Start();
 
         SetStateMachine();
+
+        SetSpriteList(Gm.GetAnimSpriteList("Bat"));
 
         // 리퍼 스킬 추가
         DicState.Add(MonsterState.Skill, new ReaperSkill());

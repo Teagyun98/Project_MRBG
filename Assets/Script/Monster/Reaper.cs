@@ -1,15 +1,12 @@
 public class Reaper : MonsterController
 {
-    private void Awake()
-    {
-        SetSpriteList(Gm.GetAnimSpriteList("Reaper"));
-    }
-
     public override void Start()
     {
         base.Start();
 
         SetStateMachine();
+
+        SetSpriteList(Gm.GetAnimSpriteList("Reaper"));
 
         // 리퍼 스킬 추가
         DicState.Add(MonsterState.Skill, new ReaperSkill());

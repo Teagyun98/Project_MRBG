@@ -95,7 +95,7 @@ public class MonsterController : MonoBehaviour
 
     public Sprite GetIcon()
     {
-        return animSpriteList[0];
+        return spr == null ? GetComponent<SpriteRenderer>().sprite : spr.sprite;
     }
 
     public virtual void SendMessage() { }

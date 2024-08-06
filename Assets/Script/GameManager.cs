@@ -191,7 +191,10 @@ public class GameManager : MonoBehaviour
             string key = $"Assets/Image/Monsters/{name}.png[{name}_{i}]";
 
             if (repository.SpriteResource.Keys.Contains(key) == true)
+            {
                 spriteList.Add(repository.SpriteResource[key]);
+                Debug.Log(key);
+            }
         }
 
         return spriteList;

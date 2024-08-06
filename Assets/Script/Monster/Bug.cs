@@ -2,16 +2,13 @@ using UnityEngine;
 
 public class Bug : MonsterController
 {
-    private void Awake()
-    {
-        SetSpriteList(Gm.GetAnimSpriteList("Bug"));
-    }
-
     public override void Start()
     {
         base.Start();
 
         SetStateMachine();
+
+        SetSpriteList(Gm.GetAnimSpriteList("Bug"));
 
         // 말 스킬 추가
         DicState.Add(MonsterState.Skill, new HorseSkill());

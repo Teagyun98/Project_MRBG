@@ -1,22 +1,17 @@
-using System.Collections.Generic;
 using UnityEngine;
 
-public class Warm : MonsterController
+public class Worm : MonsterController
 {
-    private void Awake()
-    {
-        SetSpriteList(Gm.GetAnimSpriteList("Warm"));
-
-    }
-
     public override void Start()
     {
         base.Start();
 
         SetStateMachine();
 
+        SetSpriteList(Gm.GetAnimSpriteList("Worm"));
+
         // 지렁이 스킬 추가
-        DicState.Add(MonsterState.Skill, new WarmSkill());
+        DicState.Add(MonsterState.Skill, new WormSkill());
     }
 
     public override void Skill_2()
@@ -27,7 +22,7 @@ public class Warm : MonsterController
     }
 }
 
-public class WarmSkill : IMonsterState<MonsterController>
+public class WormSkill : IMonsterState<MonsterController>
 {
     private MonsterController controller;
 

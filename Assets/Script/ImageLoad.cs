@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using Zenject;
@@ -12,6 +10,7 @@ public class ImageLoad : MonoBehaviour
     public void Construct(GameManager _gameManager) => gm = _gameManager;
 
     private Image img;
+    [SerializeField] private string customKey;
 
     private void Start()
     {
@@ -21,10 +20,16 @@ public class ImageLoad : MonoBehaviour
         {
             string key = $"Assets/Image/{img.sprite.name}.png";
 
+            if(customKey != string.Empty)
+                key = customKey;
+
             Sprite load = gm.GetSprite(key);
 
             if (load != null)
+            {
                 img.sprite = load;
+                Debug.Log(key);
+            }
         }
     }
 }

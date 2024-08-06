@@ -6,7 +6,6 @@ using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
-using Zenject;
 
 public class AddressableManager : MonoBehaviour
 {
@@ -80,6 +79,8 @@ public class AddressableManager : MonoBehaviour
                             press.gameObject.SetActive(true);
                             downloadPersent.gameObject.SetActive(false);
 
+                            warning.SetActive(true);
+
                             return;
                         }
                     };
@@ -150,6 +151,8 @@ public class AddressableManager : MonoBehaviour
                 {
                     press.gameObject.SetActive(true);
                     downloadPersent.gameObject.SetActive(false);
+
+                    warning.SetActive(true);
 
                     download = false;
                 }

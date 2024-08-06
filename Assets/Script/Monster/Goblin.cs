@@ -2,19 +2,16 @@ using UnityEngine;
 
 public class Goblin : MonsterController
 {
-    private void Awake()
-    {
-        SetSpriteList(Gm.GetAnimSpriteList("Goblin"));
-    }
-
     public override void Start()
     {
         base.Start();
 
         SetStateMachine();
 
+        SetSpriteList(Gm.GetAnimSpriteList("Goblin"));
+
         // 지렁이 스킬 추가
-        DicState.Add(MonsterState.Skill, new WarmSkill());
+        DicState.Add(MonsterState.Skill, new GoblinSkill());
     }
 
     public override void Skill_2()

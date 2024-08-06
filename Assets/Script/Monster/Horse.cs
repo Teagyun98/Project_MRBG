@@ -2,11 +2,6 @@ using UnityEngine;
 
 public class Horse : MonsterController
 {
-    private void Awake()
-    {
-        SetSpriteList(Gm.GetAnimSpriteList("Horse"));
-    }
-
     public override void Start()
     {
         base.Start();

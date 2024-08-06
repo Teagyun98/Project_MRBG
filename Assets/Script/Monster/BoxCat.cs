@@ -2,15 +2,13 @@ using UnityEngine;
 
 public class BoxCat : MonsterController
 {
-    private void Awake()
-    {
-        SetSpriteList(Gm.GetAnimSpriteList("BoxCat"));
-    }
     public override void Start()
     {
         base.Start();
 
         SetStateMachine();
+
+        SetSpriteList(Gm.GetAnimSpriteList("BoxCat"));
 
         // 말 스킬 추가
         DicState.Add(MonsterState.Skill, new HorseSkill());

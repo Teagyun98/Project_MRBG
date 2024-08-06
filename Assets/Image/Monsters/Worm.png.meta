@@ -136,7 +136,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Warm_0
+      name: Worm_0
       rect:
         serializedVersion: 2
         x: 0
@@ -150,14 +150,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 0f03411c45e7648428a40c08dcf2ccd2
-      internalID: 534596691
+      spriteID: d0945245382113b488fa08476b37851a
+      internalID: 574473620
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Warm_1
+      name: Worm_1
       rect:
         serializedVersion: 2
         x: 17
@@ -171,14 +171,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 25e674accb30b59439980f0c6ba7ca65
-      internalID: -151671393
+      spriteID: d78f0b066b491a84a86967bcd663544f
+      internalID: 1998101368
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Warm_2
+      name: Worm_2
       rect:
         serializedVersion: 2
         x: 0
@@ -192,14 +192,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 2ff42cd253dcc7241b585afbe869a522
-      internalID: -2020147500
+      spriteID: c3bad619cbe33a348bb46de797fd2528
+      internalID: -1935617071
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Warm_3
+      name: Worm_3
       rect:
         serializedVersion: 2
         x: 17
@@ -213,14 +213,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 772785a230f5b1643be7acd21be5520c
-      internalID: 906895534
+      spriteID: 549217cf1509f834ba3eb2d16d5120a1
+      internalID: 1986400553
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Warm_4
+      name: Worm_4
       rect:
         serializedVersion: 2
         x: 0
@@ -234,14 +234,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: ada7691eb3edece4cae3033f8535bc0d
-      internalID: -684152771
+      spriteID: 00340dc859d1fc74ebab939c903045dc
+      internalID: -1383312022
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Warm_5
+      name: Worm_5
       rect:
         serializedVersion: 2
         x: 17
@@ -255,14 +255,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: a1a3fcc9f1e9e3a449bdf4dbf5edb891
-      internalID: -354458106
+      spriteID: 2f9bf41e4807d9540962850e9ec5969c
+      internalID: -842940089
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Warm_6
+      name: Worm_6
       rect:
         serializedVersion: 2
         x: 0
@@ -276,14 +276,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 106fb1fb7aa3036458b3270ea38a5cbb
-      internalID: 554176449
+      spriteID: 4178ea78fa4ca8b49982ee0cb53a0996
+      internalID: -2033658267
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Warm_7
+      name: Worm_7
       rect:
         serializedVersion: 2
         x: 17
@@ -297,8 +297,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: f364638e54e7aba4b97e655da9b9372b
-      internalID: -1186338885
+      spriteID: e7016cf997bf4a94cbf58adfe7311027
+      internalID: -1642292963
       vertices: []
       indices: 
       edges: []
@@ -314,14 +314,14 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      Warm_0: 534596691
-      Warm_1: -151671393
-      Warm_2: -2020147500
-      Warm_3: 906895534
-      Warm_4: -684152771
-      Warm_5: -354458106
-      Warm_6: 554176449
-      Warm_7: -1186338885
+      Worm_0: 574473620
+      Worm_1: 1998101368
+      Worm_2: -1935617071
+      Worm_3: 1986400553
+      Worm_4: -1383312022
+      Worm_5: -842940089
+      Worm_6: -2033658267
+      Worm_7: -1642292963
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
