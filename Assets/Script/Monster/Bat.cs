@@ -6,16 +6,12 @@ public class Bat : MonsterController
 
         SetStateMachine();
 
-        SetSpriteList(Gm.GetAnimSpriteList("Bat"));
-
         // 리퍼 스킬 추가
         DicState.Add(MonsterState.Skill, new ReaperSkill());
     }
 
-    public override void Skill_2()
+    public void Skill()
     {
-        base.Skill_2();
-
         foreach (MonsterController monster in Gm.OtherMonsterList(this))
             monster.Sm.SetState(monster.DicState[MonsterState.Hit]);
     }

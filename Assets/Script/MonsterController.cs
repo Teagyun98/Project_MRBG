@@ -20,7 +20,7 @@ public class MonsterController : MonoBehaviour
     public Animator Animator { get; private set; }
 
     private SpriteRenderer spr;
-    private List<Sprite> animSpriteList;
+    [SerializeField] private Sprite icon;
 
     public bool skill;
 
@@ -95,63 +95,8 @@ public class MonsterController : MonoBehaviour
 
     public Sprite GetIcon()
     {
-        return spr == null ? GetComponent<SpriteRenderer>().sprite : spr.sprite;
+        return icon;
     }
 
     public virtual void SendMessage() { }
-
-    public void SetSpriteList(List<Sprite> list)
-    {
-        animSpriteList = list;
-    }
-
-    public void Idle_1()
-    {
-        if(animSpriteList.Count > 0)
-            spr.sprite = animSpriteList[0];
-    }
-
-    public void Idle_2()
-    {
-        if (animSpriteList.Count > 0)
-            spr.sprite = animSpriteList[1];
-    }
-
-    public void Move_1()
-    {
-        if (animSpriteList.Count > 0)
-            spr.sprite = animSpriteList[2];
-    }
-
-    public void Move_2()
-    {
-        if (animSpriteList.Count > 0)
-            spr.sprite = animSpriteList[3];
-    }
-
-    public void Hit_1()
-    {
-        if (animSpriteList.Count > 0)
-            spr.sprite = animSpriteList[4];
-    }
-
-    public void Hit_2()
-    {
-        if (animSpriteList.Count > 0)
-            spr.sprite = animSpriteList[5];
-    }
-
-    public void Skill_1()
-    {
-        if (animSpriteList.Count > 0)
-            spr.sprite = animSpriteList[6];
-    }
-
-    public virtual void Skill_2()
-    {
-        if (animSpriteList.Count > 0)
-            spr.sprite = animSpriteList[7];
-    }
-
-    public void Empty() { }
 }

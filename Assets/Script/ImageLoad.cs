@@ -28,7 +28,6 @@ public class ImageLoad : MonoBehaviour
             if (load != null)
             {
                 img.sprite = load;
-                Debug.Log(key);
             }
         }
     }

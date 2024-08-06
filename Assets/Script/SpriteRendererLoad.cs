@@ -23,14 +23,11 @@ public class SpriteRendererLoad : MonoBehaviour
             if(customKey != string.Empty)
                 key = customKey;
 
-            Debug.Log(key);
-
             Sprite load = gm.GetSprite(key);
 
             if (load != null)
             {
                 spr.sprite = load;
-                Debug.Log(key);
             }
         }
     }

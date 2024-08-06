@@ -8,16 +8,12 @@ public class Goblin : MonsterController
 
         SetStateMachine();
 
-        SetSpriteList(Gm.GetAnimSpriteList("Goblin"));
-
         // 지렁이 스킬 추가
         DicState.Add(MonsterState.Skill, new GoblinSkill());
     }
 
-    public override void Skill_2()
+    public void Skill()
     {
-        base.Skill_2();
-
         MonsterController first = Gm.FirstMonster();
 
         if(first == null || first == this)

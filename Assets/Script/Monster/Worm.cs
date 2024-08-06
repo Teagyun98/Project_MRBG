@@ -8,16 +8,12 @@ public class Worm : MonsterController
 
         SetStateMachine();
 
-        SetSpriteList(Gm.GetAnimSpriteList("Worm"));
-
         // 지렁이 스킬 추가
         DicState.Add(MonsterState.Skill, new WormSkill());
     }
 
-    public override void Skill_2()
+    public void Skill()
     {
-        base.Skill_2();
-
         transform.position = transform.position + new Vector3(1f, 0, 0);
     }
 }

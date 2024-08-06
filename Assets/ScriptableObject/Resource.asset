@@ -12,4 +12,3 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4854faa933ce6b04db1fb49972a568bb, type: 3}
   m_Name: Resource
   m_EditorClassIdentifier: 
-  Sprites: []

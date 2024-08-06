@@ -8,13 +8,9 @@ public class BoxCat : MonsterController
 
         SetStateMachine();
 
-        SetSpriteList(Gm.GetAnimSpriteList("BoxCat"));
-
         // 말 스킬 추가
         DicState.Add(MonsterState.Skill, new HorseSkill());
     }
-
-    public override void SkillEnd() { }
 }
 
 public class BoxCatSkill : IMonsterState<MonsterController>

@@ -31,6 +31,10 @@ public class AddressableManager : MonoBehaviour
 
     public void Press()
     {
+        SceneManager.LoadScene("GameScene");
+
+        return;
+
         if (download == false)
         {
             press.gameObject.SetActive(false);
@@ -41,6 +45,18 @@ public class AddressableManager : MonoBehaviour
         {
             SceneManager.LoadScene("GameScene");
         }
+    }
+
+    public void ClearBundle()
+    {
+        foreach (string key in keys)
+        {
+            Addressables.ClearDependencyCacheAsync(key);
+        }
+
+        Caching.ClearCache();
+
+        download = false;
     }
 
     public void DownLoadDependenciesAsync()

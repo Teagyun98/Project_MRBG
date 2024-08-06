@@ -9,8 +9,6 @@ public class Dice : MonsterController
         SetStateMachine();
         SetSpeed(0);
 
-        SetSpriteList(Gm.GetAnimSpriteList("Dice"));
-
         // 주사위 스킬 추가
         DicState.Add(MonsterState.Skill, new DiceSkill());
     }

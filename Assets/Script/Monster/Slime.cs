@@ -9,16 +9,12 @@ public class Slime : MonsterController
 
         SetStateMachine();
 
-        SetSpriteList(Gm.GetAnimSpriteList("Slime"));
-
         // 슬라임 스킬 추가
         DicState.Add(MonsterState.Skill, new SlimeSkill());
     }
 
-    public override void Skill_2()
+    public void Skill()
     {
-        base.Skill_2();
-
         if (Random.Range(0, 10) == 0)
         {
             foreach (MonsterController monster in Gm.OtherMonsterList(this))

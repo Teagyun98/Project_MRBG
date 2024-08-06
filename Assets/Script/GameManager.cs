@@ -192,8 +192,7 @@ public class GameManager : MonoBehaviour
 
             if (repository.SpriteResource.Keys.Contains(key) == true)
             {
-                spriteList.Add(repository.SpriteResource[key]);
-                Debug.Log(key);
+                //spriteList.Add(repository.SpriteResource[key]);
             }
         }
 
@@ -202,9 +201,9 @@ public class GameManager : MonoBehaviour
 
     public Sprite GetSprite(string key)
     {
-        if(repository.SpriteResource.Keys.Contains(key) == true)
-            return repository.SpriteResource[key];
-        else
+        //if(repository.SpriteResource.Keys.Contains(key) == true)
+            //return repository.SpriteResource[key];
+        //else
             return null;
     }
 }

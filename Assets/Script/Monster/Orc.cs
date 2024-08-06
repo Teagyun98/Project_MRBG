@@ -8,14 +8,9 @@ public class Orc : MonsterController
 
         SetStateMachine();
 
-        SetSpriteList(Gm.GetAnimSpriteList("Orc"));
-
         // 오크 스킬 추가
         DicState.Add(MonsterState.Skill, new OrcSkill());
     }
-
-    public override void SkillEnd() { }
-
 }
 
 public class OrcSkill : IMonsterState<MonsterController>

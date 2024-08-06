@@ -1187,107 +1187,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 11aba28945beb724fa86b31ead1f1960, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spriteKeys:
-  - Assets/Image/BankIcon.png
-  - Assets/Image/Cell.png
-  - Assets/Image/CharAnchor.png
-  - Assets/Image/DisPlay.png
-  - Assets/Image/Flag.png
-  - Assets/Image/GoButtonpng.png
-  - Assets/Image/Money.png
-  - Assets/Image/PanelButton.png
-  - Assets/Image/ReturnButton.png
-  - Assets/Image/Shadow.png
-  - Assets/Image/SkillPanel.png
-  - Assets/Image/Sky.png
-  - Assets/Image/UIPanel.png
-  - "Assets/Image/\uACBD\uB9C8\uC7A5.png"
-  - Assets/Image/Monsters/Bat.png[Bat_0]
-  - Assets/Image/Monsters/Bat.png[Bat_1]
-  - Assets/Image/Monsters/Bat.png[Bat_2]
-  - Assets/Image/Monsters/Bat.png[Bat_3]
-  - Assets/Image/Monsters/Bat.png[Bat_4]
-  - Assets/Image/Monsters/Bat.png[Bat_5]
-  - Assets/Image/Monsters/Bat.png[Bat_6]
-  - Assets/Image/Monsters/Bat.png[Bat_7]
-  - Assets/Image/Monsters/BoxCat.png[BoxCat_0]
-  - Assets/Image/Monsters/BoxCat.png[BoxCat_1]
-  - Assets/Image/Monsters/BoxCat.png[BoxCat_2]
-  - Assets/Image/Monsters/BoxCat.png[BoxCat_3]
-  - Assets/Image/Monsters/BoxCat.png[BoxCat_4]
-  - Assets/Image/Monsters/BoxCat.png[BoxCat_5]
-  - Assets/Image/Monsters/BoxCat.png[BoxCat_6]
-  - Assets/Image/Monsters/BoxCat.png[BoxCat_7]
-  - Assets/Image/Monsters/Bug.png[Bug_0]
-  - Assets/Image/Monsters/Bug.png[Bug_1]
-  - Assets/Image/Monsters/Bug.png[Bug_2]
-  - Assets/Image/Monsters/Bug.png[Bug_3]
-  - Assets/Image/Monsters/Bug.png[Bug_4]
-  - Assets/Image/Monsters/Bug.png[Bug_5]
-  - Assets/Image/Monsters/Bug.png[Bug_6]
-  - Assets/Image/Monsters/Bug.png[Bug_7]
-  - Assets/Image/Monsters/Dice.png[Dice_0]
-  - Assets/Image/Monsters/Dice.png[Dice_1]
-  - Assets/Image/Monsters/Dice.png[Dice_2]
-  - Assets/Image/Monsters/Dice.png[Dice_3]
-  - Assets/Image/Monsters/Dice.png[Dice_4]
-  - Assets/Image/Monsters/Dice.png[Dice_5]
-  - Assets/Image/Monsters/Dice.png[Dice_6]
-  - Assets/Image/Monsters/Dice.png[Dice_7]
-  - Assets/Image/Monsters/Goblin.png[Goblin_0]
-  - Assets/Image/Monsters/Goblin.png[Goblin_1]
-  - Assets/Image/Monsters/Goblin.png[Goblin_2]
-  - Assets/Image/Monsters/Goblin.png[Goblin_3]
-  - Assets/Image/Monsters/Goblin.png[Goblin_4]
-  - Assets/Image/Monsters/Goblin.png[Goblin_5]
-  - Assets/Image/Monsters/Goblin.png[Goblin_6]
-  - Assets/Image/Monsters/Goblin.png[Goblin_7]
-  - Assets/Image/Monsters/Horse.png[Horse_0]
-  - Assets/Image/Monsters/Horse.png[Horse_1]
-  - Assets/Image/Monsters/Horse.png[Horse_2]
-  - Assets/Image/Monsters/Horse.png[Horse_3]
-  - Assets/Image/Monsters/Horse.png[Horse_4]
-  - Assets/Image/Monsters/Horse.png[Horse_5]
-  - Assets/Image/Monsters/Horse.png[Horse_6]
-  - Assets/Image/Monsters/Horse.png[Horse_7]
-  - Assets/Image/Monsters/Orc.png[Orc_0]
-  - Assets/Image/Monsters/Orc.png[Orc_1]
-  - Assets/Image/Monsters/Orc.png[Orc_2]
-  - Assets/Image/Monsters/Orc.png[Orc_3]
-  - Assets/Image/Monsters/Orc.png[Orc_4]
-  - Assets/Image/Monsters/Orc.png[Orc_5]
-  - Assets/Image/Monsters/Orc.png[Orc_6]
-  - Assets/Image/Monsters/Orc.png[Orc_7]
-  - Assets/Image/Monsters/Reaper.png[Reaper_0]
-  - Assets/Image/Monsters/Reaper.png[Reaper_1]
-  - Assets/Image/Monsters/Reaper.png[Reaper_2]
-  - Assets/Image/Monsters/Reaper.png[Reaper_3]
-  - Assets/Image/Monsters/Reaper.png[Reaper_4]
-  - Assets/Image/Monsters/Reaper.png[Reaper_5]
-  - Assets/Image/Monsters/Reaper.png[Reaper_6]
-  - Assets/Image/Monsters/Reaper.png[Reaper_7]
-  - Assets/Image/Monsters/Slime.png[Slime_0]
-  - Assets/Image/Monsters/Slime.png[Slime_1]
-  - Assets/Image/Monsters/Slime.png[Slime_2]
-  - Assets/Image/Monsters/Slime.png[Slime_3]
-  - Assets/Image/Monsters/Slime.png[Slime_4]
-  - Assets/Image/Monsters/Slime.png[Slime_5]
-  - Assets/Image/Monsters/Slime.png[Slime_6]
-  - Assets/Image/Monsters/Slime.png[Slime_7]
-  - Assets/Image/Monsters/Warm.png[Warm_0]
-  - Assets/Image/Monsters/Warm.png[Warm_1]
-  - Assets/Image/Monsters/Warm.png[Warm_2]
-  - Assets/Image/Monsters/Warm.png[Warm_3]
-  - Assets/Image/Monsters/Warm.png[Warm_4]
-  - Assets/Image/Monsters/Warm.png[Warm_5]
-  - Assets/Image/Monsters/Warm.png[Warm_6]
-  - Assets/Image/Monsters/Warm.png[Warm_7]
-  - Assets/Image/Number.png[1st]
-  - Assets/Image/Number.png[2nd]
-  - Assets/Image/Number.png[3rd]
-  - Assets/Image/Number.png[4th]
-  - Assets/Image/Number.png[5th]
-  - Assets/Image/Number.png[6th]
+  spriteKeys: []
   keys:
   - Image
   press: {fileID: 1901895511}
@@ -1671,8 +1571,8 @@ RectTransform:
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 164455832}
   - {fileID: 1901895510}
+  - {fileID: 164455832}
   - {fileID: 1086143997}
   - {fileID: 291988949}
   m_Father: {fileID: 0}
