@@ -1,28 +1,26 @@
 using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class AddressableManager : MonoBehaviour
 {
     [Header("ResourceKeys")]
-    [SerializeField] private List<string> spriteKeys;
+    [SerializeField] private string sceneKey;
 
     [Header("Info")]
-    [SerializeField] private List<string> keys;
+    [SerializeField] private string key;
     [SerializeField] private Button press;
     [SerializeField] private TextMeshProUGUI downloadText;
     [SerializeField] private Slider downloadPersent;
     [SerializeField] private GameObject warning;
 
-    [Header("Repository")]
-    [SerializeField] private ResourceRepository repository;
-
     private bool download;
+
+    public Image test;
+    public TextMeshProUGUI text;
 
     private void Start()
     {
@@ -31,10 +29,6 @@ public class AddressableManager : MonoBehaviour
 
     public void Press()
     {
-        SceneManager.LoadScene("GameScene");
-
-        return;
-
         if (download == false)
         {
             press.gameObject.SetActive(false);
@@ -43,77 +37,87 @@ public class AddressableManager : MonoBehaviour
         }
         else
         {
-            SceneManager.LoadScene("GameScene");
+            LoadScene();
         }
     }
 
+    // 번들 삭제 함수
     public void ClearBundle()
     {
-        foreach (string key in keys)
-        {
-            Addressables.ClearDependencyCacheAsync(key);
-        }
+        Addressables.ClearDependencyCacheAsync(key);
 
         Caching.ClearCache();
 
         download = false;
     }
 
+    // 번들 안에 라벨로 묶여 있는 리소스 다운로드
     public void DownLoadDependenciesAsync()
     {
         downloadPersent.gameObject.SetActive(true);
-        int fileCount = keys.Count;
+        int fileCount = 1;
         int endCount = 0;
 
-        foreach (string key in keys)
+        Addressables.GetDownloadSizeAsync(key).Completed += (opSize) =>
         {
-            Addressables.GetDownloadSizeAsync(key).Completed += (opSize) =>
+            // 번들의 크기
+            string size = string.Concat(float.Parse((opSize.Result / Mathf.Pow(1024, 2)).ToString("N1")), "mb");
+
+            if (opSize.Status == AsyncOperationStatus.Succeeded && opSize.Result > 0)
             {
-                // 번들의 크기
-                string size = string.Concat(float.Parse((opSize.Result / Mathf.Pow(1024, 2)).ToString("N1")), "mb");
-
-                if (opSize.Status == AsyncOperationStatus.Succeeded && opSize.Result > 0)
+                AsyncOperationHandle downloadHandle = Addressables.DownloadDependenciesAsync(key, true);
+                downloadHandle.Completed += (opDownload) =>
                 {
-                    AsyncOperationHandle downloadHandle = Addressables.DownloadDependenciesAsync(key, true);
-                    downloadHandle.Completed += (opDownload) =>
+                    if ((opDownload).Status == AsyncOperationStatus.Succeeded)
                     {
-                        if ((opDownload).Status == AsyncOperationStatus.Succeeded)
-                        {
-                            // 다운로드 완료
-                            endCount++;
-                            UpdateDownloadUI(size, 1.0f);
+                        // 다운로드 완료
+                        endCount++;
+                        UpdateDownloadUI(size, 1.0f);
 
-                            // 다운로드가 끝나면 메모리 해제
-                            Addressables.Release(downloadHandle);
+                        // 다운로드가 끝나면 메모리 해제
+                        Addressables.Release(downloadHandle);
 
-                            if (fileCount == endCount)
-                                LoadSprite();
-                        }
-                        else
+                        if (fileCount == endCount)
                         {
-                            // 다운로드 실패
                             press.gameObject.SetActive(true);
                             downloadPersent.gameObject.SetActive(false);
 
-                            warning.SetActive(true);
+                            download = true;
 
-                            return;
+                            Test();
                         }
-                    };
+                    }
+                    else
+                    {
+                        // 다운로드 실패
+                        press.gameObject.SetActive(true);
+                        downloadPersent.gameObject.SetActive(false);
 
-                    StartCoroutine(UpdateDownloadProgress(downloadHandle, size));
-                }
-                else
+                        warning.SetActive(true);
+
+                        return;
+                    }
+                };
+
+                StartCoroutine(UpdateDownloadProgress(downloadHandle, size));
+            }
+            else
+            {
+                // 이미 다운로드 완료
+                endCount++;
+                UpdateDownloadUI(size, 1.0f);
+
+                if (fileCount == endCount)
                 {
-                    // 이미 다운로드 완료
-                    endCount++;
-                    UpdateDownloadUI(size, 1.0f);
+                    press.gameObject.SetActive(true);
+                    downloadPersent.gameObject.SetActive(false);
 
-                    if (fileCount == endCount)
-                        LoadSprite();
+                    download = true;
+
+                    Test();
                 }
-            };
-        }
+            }
+        };
     }
 
     private void UpdateDownloadUI(string size, float percent)
@@ -133,52 +137,65 @@ public class AddressableManager : MonoBehaviour
         }
     }
 
-    // 미리 사용할 모든 리소스를 로드한다.
-    public void LoadSprite()
+    // 게임 씬 로드 
+    public void LoadScene()
     {
-        Dictionary<string, Sprite> dicSprite = new Dictionary<string, Sprite>();
+        AsyncOperationHandle handle = Addressables.LoadSceneAsync(sceneKey);
 
-        foreach(string key in spriteKeys)
+        handle.Completed += (sc) =>
         {
-            AsyncOperationHandle<Sprite> handle = Addressables.LoadAssetAsync<Sprite>(key);
-
-            handle.Completed += (sp) => 
+            if (sc.Status == AsyncOperationStatus.Succeeded)
             {
-                if (sp.Status == AsyncOperationStatus.Succeeded)
-                {
-                    dicSprite.Add(key, sp.Result);
+                Addressables.Release(handle);
+            }
+            else
+            {
+                press.gameObject.SetActive(true);
+                downloadPersent.gameObject.SetActive(false);
 
-                    UpdateLoadUI("Image", spriteKeys.Count, dicSprite.Count);
+                warning.SetActive(true);
 
-                    if (dicSprite.Count == spriteKeys.Count)
-                    {
-                        // 로드한 리소스 전달
-                        repository.SetSpriteResource(dicSprite);
+                download = false;
+            }
+        };
 
-                        press.gameObject.SetActive(true);
-                        downloadPersent.gameObject.SetActive(false);
+        StartCoroutine(UpdateLoadProgress(handle));
+    }
 
-                        download = true;
-                    }
+    private void UpdateLoadUI(string loadState, float percent)
+    {
+        downloadText.text = $"{loadState} Load : {percent}%";
+        downloadPersent.value = percent / 100f;
+    }
 
-                    Addressables.Release(handle);
-                }
-                else
-                {
-                    press.gameObject.SetActive(true);
-                    downloadPersent.gameObject.SetActive(false);
-
-                    warning.SetActive(true);
-
-                    download = false;
-                }
-            };
+    private IEnumerator UpdateLoadProgress(AsyncOperationHandle loadHandle)
+    {
+        while (!loadHandle.IsDone)
+        {
+            float percent = loadHandle.PercentComplete;
+            UpdateLoadUI("Scene", percent);
+            yield return null;
         }
     }
 
-    private void UpdateLoadUI(string loadState, int fileCount, int nowLoad)
+    public void Test()
     {
-        downloadText.text = $"{loadState} Load : {nowLoad}/{fileCount}%";
-        downloadPersent.value = (float)nowLoad / fileCount;
+        Addressables.LoadAssetAsync<Sprite>("Assets/Image/BankIcon.png").Completed += (sp) => 
+        {
+            if (sp.Status == AsyncOperationStatus.Succeeded)
+                test.sprite = sp.Result;
+        };
+
+        Addressables.LoadAssetAsync<Material>("Assets/Material/default.mat").Completed += (ma) =>
+        {
+            if (ma.Status == AsyncOperationStatus.Succeeded)
+                test.material = ma.Result;
+        };
+
+        Addressables.LoadAssetAsync<TMP_FontAsset>("Assets/Font/DungGeunMo SDF.asset").Completed += (ft) =>
+        {
+            if (ft.Status == AsyncOperationStatus.Succeeded)
+                text.font = ft.Result;
+        };
     }
 }
