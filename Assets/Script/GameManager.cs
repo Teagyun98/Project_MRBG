@@ -104,11 +104,16 @@ public class GameManager : MonoBehaviour
         float posX = 0;
 
         foreach (MonsterController monster in ReadyMonsterList)
-            if (posX < monster.transform.position.x)
-                posX = monster.transform.position.x;
+            if(RankingList.Contains(monster) == false)
+                if (posX < monster.transform.position.x)
+                    posX = monster.transform.position.x;
 
         if (dice)
             return posX;
+
+        // 모든 몬스터가 골 라인에 들어온 경우 레이스 결과를 확인할 수 있게 x값 유지
+        if(ReadyMonsterList.Count == RankingList.Count)
+            posX = RankingList[0].transform.position.x;
 
         return posX < 2.4f ? posX : 2.4f;
     }

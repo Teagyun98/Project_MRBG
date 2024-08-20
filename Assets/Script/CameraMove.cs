@@ -36,7 +36,7 @@ public class CameraMove : MonoBehaviour
     //0~2.4
     private void FixedUpdate()
     {
-        if(focusTime > 0 && Target != null)
+        if (focusTime > 0 && Target != null)
         {
             if (gm.GetGameScreen().transform.localScale.x != 3)
                 gm.GetGameScreen().transform.localScale = Vector3.Lerp(gm.GetGameScreen().transform.localScale, new Vector3(3, 3, 3), Time.fixedDeltaTime * 5 * gm.GameSpeed);
@@ -48,20 +48,13 @@ public class CameraMove : MonoBehaviour
             if (focusTime <= 0)
                 Target = null;
         }
-        else if (gm.Race == true)
-        {
-            if (gm.GetGameScreen().transform.localScale.x != 1)
-                gm.GetGameScreen().transform.localScale = Vector3.Lerp(gm.GetGameScreen().transform.localScale, new Vector3(1, 1, 1), Time.fixedDeltaTime * 5 * gm.GameSpeed);
-
-            Vector3 movePos = new Vector3(gm.FirstMonsterPosX(), 0, -10);
-            transform.position = Vector3.Lerp(transform.position, movePos, Time.fixedDeltaTime * 5 * gm.GameSpeed);
-        }
         else
         {
             if (gm.GetGameScreen().transform.localScale.x != 1)
                 gm.GetGameScreen().transform.localScale = Vector3.Lerp(gm.GetGameScreen().transform.localScale, new Vector3(1, 1, 1), Time.fixedDeltaTime * 5 * gm.GameSpeed);
 
-            transform.position = new Vector3(0, 0, -10);
+            Vector3 movePos = gm.Race ? new Vector3(gm.FirstMonsterPosX(), 0, -10) : new Vector3(0, 0, -10);
+            transform.position = Vector3.Lerp(transform.position, movePos, Time.fixedDeltaTime * 5 * gm.GameSpeed);
         }
     }
 
