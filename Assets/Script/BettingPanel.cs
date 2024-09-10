@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -8,12 +8,12 @@ using Zenject;
 public class BettingPanel : MonoBehaviour
 {
     private GameManager gm;
-    private UserData userData;
+    private UserDataManager udm;
 
     [Inject]
     public void Construct(GameManager _gameManager) => gm = _gameManager;
     [Inject]
-    public void Construct(UserData _userdata) => userData = _userdata;
+    public void Construct(UserDataManager _userDataManager) => udm = _userDataManager;
 
     [SerializeField] private List<BettingCard> cardList;
     [SerializeField] private TextMeshProUGUI betBP;
@@ -110,7 +110,7 @@ public class BettingPanel : MonoBehaviour
         }
 
         // BP가 부족할 때
-        if (userData.BettingPoint < nowBet + num)
+        if (udm.UserData.GetBettingPoint() < nowBet + num)
         {
             gm.Warning("Your not enough BP");
             return;
@@ -118,7 +118,7 @@ public class BettingPanel : MonoBehaviour
 
         // AllIn체크
         if (num == -1)
-            nowBet = userData.BettingPoint;
+            nowBet = udm.UserData.GetBettingPoint();
         else
             nowBet += num;
 
@@ -182,7 +182,7 @@ public class BettingPanel : MonoBehaviour
         gm.Warning(resultText.text);
 
         // 결과를 데이터에 저장
-        userData.SetBP(reward);
+        udm.UserData.AddBettingPoint(reward);
     }
 
     // 경기를 시작할 수 있는지 확인하는 함수
@@ -198,6 +198,6 @@ public class BettingPanel : MonoBehaviour
     // 경기가 시작되면 베팅 금액이 빠져나가도록 하는 함수
     public void BuyTicket()
     {
-        userData.SetBP(-nowBet);
+        udm.UserData.AddBettingPoint(-nowBet);
     }
 }

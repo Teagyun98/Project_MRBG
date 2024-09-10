@@ -14,9 +14,9 @@ public struct Line
 
 public class GameManager : MonoBehaviour
 {
-    private UserData userData;
+    private UserDataManager udm;
     [Inject]
-    public void Construct(UserData _userdata) => userData = _userdata;
+    public void Construct(UserDataManager _userDataManager) => udm = _userDataManager;
 
     [SerializeField] private GameObject gameScreen;
     [SerializeField] private List<Line> lines;
@@ -96,7 +96,9 @@ public class GameManager : MonoBehaviour
 
         Race = true;
         bp.BuyTicket();
-        userData.Interest();
+
+        // 은행 이자
+        udm.UserData.AddSaved(udm.UserData.GetSaved()/100);
     }
 
     public float FirstMonsterPosX(bool dice = false)
