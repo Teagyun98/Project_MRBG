@@ -26,6 +26,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI speedText;
     [SerializeField] private GameObject warningPanel;
     [SerializeField] private TextMeshProUGUI warningText;
+    [SerializeField] private TextMeshProUGUI bettingPointText;
 
     public List<MonsterController> ReadyMonsterList { get; private set; }
     public List<MonsterController> RankingList { get; private set; }
@@ -44,6 +45,7 @@ public class GameManager : MonoBehaviour
             GameSpeed = 1;
 
         GameSet();
+        SetBPText();
     }
 
     public void GameSet()
@@ -98,7 +100,7 @@ public class GameManager : MonoBehaviour
         bp.BuyTicket();
 
         // 은행 이자
-        udm.UserData.AddSaved(udm.UserData.GetSaved()/100);
+        udm.GetData().AddSaved(udm.GetData().GetSaved()/100);
     }
 
     public float FirstMonsterPosX(bool dice = false)
@@ -184,5 +186,10 @@ public class GameManager : MonoBehaviour
     public GameObject GetGameScreen()
     {
         return gameScreen;
+    }
+
+    public void SetBPText()
+    {
+        bettingPointText.text = $"{udm.GetData().GetBettingPoint()}BP";
     }
 }

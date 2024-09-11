@@ -1,53 +1,85 @@
+using System;
+using UnityEngine;
+using System.Collections;
+
 using GooglePlayGames;
 using GooglePlayGames.BasicApi;
-using UnityEngine;
+
+using Firebase.Database;
+using Firebase.Auth;
+using Firebase;
+using Firebase.Extensions;
 
 public class UserDataManager : MonoBehaviour
 {
-    public UserData UserData { get; private set; }
+    private UserData data;
+
+    private DatabaseReference reference;
+    private FirebaseAuth auth;
 
     private void Start()
     {
-        DontDestroyOnLoad(gameObject);
+        reference = FirebaseDatabase.DefaultInstance.RootReference;
+        auth = FirebaseAuth.DefaultInstance;
 
-        PlayGamesPlatform.Instance.Authenticate(ProcessAuthentication);
+        FirebaseApp.CheckAndFixDependenciesAsync().ContinueWithOnMainThread(task =>
+        {
+            if (task.Result == DependencyStatus.Available)
+            {
+                PlayGamesPlatform.Instance.Authenticate(status => 
+                {
+                    if (status == SignInStatus.Success)
+                    {
+
+                    }
+                    else
+                    {
+                        Debug.Log("구글 플레이 로그인 실패");
+                    }
+                });
+            }
+            else
+                Debug.Log("연결실패");
+        });
 
         // Unity 소셜 플랫폼을 사용한 로그인
         //PlayGamesPlatform.Activate();
         //Social.localUser.Authenticate(ProcessAuthentication);
 
-        //SetUserData();
+        SetUserData();
     }
 
-    internal void ProcessAuthentication(SignInStatus status)
+    private IEnumerator FireBaseLogin()
     {
-        if(status == SignInStatus.Success)
-        {
-            Debug.Log("로그인 성공");
-        }
-        else
-        {
-            Debug.Log("로그인 실패");
-        }
+        
+
+        yield break;
+    }
+
+    public UserData GetData()
+    {
+        return data;
     }
 
     private void SetUserData()
     {
-        UserData = new UserData();
-        UserData.Init();
+        data = new UserData("Player");
+        data.Init();
     }
 }
 
-
-public struct UserData
+[Serializable]
+public class UserData
 {
-    private string userName;          // 유저 이름
-    private int bettingPoint;           // 유저 보유 BP
-    private int saved;                      // 유저 저금 BP
+    private string userName;      // 유저 이름
+    private int bettingPoint;       // 유저 보유 BP
+    private int saved;                 // 유저 저금 BP
+
+    public UserData(string _userName) => userName = _userName;
 
     public void Init()
     {
-        bettingPoint = 10;
+        bettingPoint = 100;
         saved = 0;
     }
 

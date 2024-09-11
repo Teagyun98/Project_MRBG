@@ -110,7 +110,7 @@ public class BettingPanel : MonoBehaviour
         }
 
         // BP가 부족할 때
-        if (udm.UserData.GetBettingPoint() < nowBet + num)
+        if (udm.GetData().GetBettingPoint() < nowBet + num)
         {
             gm.Warning("Your not enough BP");
             return;
@@ -118,7 +118,7 @@ public class BettingPanel : MonoBehaviour
 
         // AllIn체크
         if (num == -1)
-            nowBet = udm.UserData.GetBettingPoint();
+            nowBet = udm.GetData().GetBettingPoint();
         else
             nowBet += num;
 
@@ -182,7 +182,7 @@ public class BettingPanel : MonoBehaviour
         gm.Warning(resultText.text);
 
         // 결과를 데이터에 저장
-        udm.UserData.AddBettingPoint(reward);
+        udm.GetData().AddBettingPoint(reward);
     }
 
     // 경기를 시작할 수 있는지 확인하는 함수
@@ -198,6 +198,7 @@ public class BettingPanel : MonoBehaviour
     // 경기가 시작되면 베팅 금액이 빠져나가도록 하는 함수
     public void BuyTicket()
     {
-        udm.UserData.AddBettingPoint(-nowBet);
+        udm.GetData().AddBettingPoint(-nowBet);
+        gm.SetBPText();
     }
 }

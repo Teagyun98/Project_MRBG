@@ -22,12 +22,13 @@ public class Bank : MonoBehaviour
 
     private void SetText()
     {
-        if (udm.UserData.GetSaved() > 0)
+        if (udm.GetData().GetSaved() > 0)
             takeAllText.text = "All";
         else
             takeAllText.text = "100BP";
 
-        saveText.text = $"Saved:{udm.UserData.GetSaved()}BP";
+        saveText.text = $"Saved:{udm.GetData().GetSaved()}BP";
+        gm.SetBPText();
     }
 
     // BP를 저장하는 함수
@@ -42,15 +43,15 @@ public class Bank : MonoBehaviour
 
         if (num == -1)
         {
-            int bp = udm.UserData.GetBettingPoint();
+            int bp = udm.GetData().GetBettingPoint();
 
-            udm.UserData.AddSaved(bp);
-            udm.UserData.AddBettingPoint(-bp);
+            udm.GetData().AddSaved(bp);
+            udm.GetData().AddBettingPoint(-bp);
         }
-        else if (udm.UserData.GetBettingPoint() >= num)
+        else if (udm.GetData().GetBettingPoint() >= num)
         {
-            udm.UserData.AddSaved(num);
-            udm.UserData.AddBettingPoint(-num);
+            udm.GetData().AddSaved(num);
+            udm.GetData().AddBettingPoint(-num);
         }
 
         SetText();
@@ -66,29 +67,29 @@ public class Bank : MonoBehaviour
         }
 
         // 한 경기에 최대로 빌릴 수 있는 금액 제한
-        if(udm.UserData.GetBettingPoint() >= 100 && udm.UserData.GetSaved() <= 0)
+        if(udm.GetData().GetBettingPoint() >= 100 && udm.GetData().GetSaved() <= 0)
         {
             gm.Warning("You exceeded the limit.");
             return;
         }
 
         if (num == -1)
-            if (udm.UserData.GetSaved() <= 0)
+            if (udm.GetData().GetSaved() <= 0)
             {
-                udm.UserData.AddBettingPoint(100);
-                udm.UserData.AddSaved(-100);
+                udm.GetData().AddBettingPoint(100);
+                udm.GetData().AddSaved(-100);
             }
             else
             {
-                int saved = udm.UserData.GetSaved();
+                int saved = udm.GetData().GetSaved();
 
-                udm.UserData.AddBettingPoint(saved);
-                udm.UserData.AddSaved(-saved);
+                udm.GetData().AddBettingPoint(saved);
+                udm.GetData().AddSaved(-saved);
             }
         else
         {
-            udm.UserData.AddBettingPoint(num);
-            udm.UserData.AddSaved(-num);
+            udm.GetData().AddBettingPoint(num);
+            udm.GetData().AddSaved(-num);
         }
 
         SetText();

@@ -1187,6 +1187,7 @@ MonoBehaviour:
   speedText: {fileID: 821080818}
   warningPanel: {fileID: 2137806354}
   warningText: {fileID: 1802810545}
+  bettingPointText: {fileID: 1328382010}
 --- !u!4 &71742273
 Transform:
   m_ObjectHideFlags: 0

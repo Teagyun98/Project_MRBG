@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "254643723685",
+    "project_id": "mrbg-c64f2",
+    "storage_bucket": "mrbg-c64f2.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:254643723685:android:9bff77951e8dbb03a35c4c",
+        "android_client_info": {
+          "package_name": "com.TeagGames.com.MonsterRaceBettingGame"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCRCv6N02aeYk3L87AjL1tGKE6t04BJ7r8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

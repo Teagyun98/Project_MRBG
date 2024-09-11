@@ -41,6 +41,5 @@ public class TitleController : MonoBehaviour
             if (title.anchoredPosition.y <= minPos.y+1)
                 up = true;
         }
-
     }
 }
