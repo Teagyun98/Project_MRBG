@@ -1213,7 +1213,7 @@ MonoBehaviour:
   m_linkedTextComponent: {fileID: 0}
   parentLinkedComponent: {fileID: 0}
   m_enableKerning: 1
-  m_ActiveFontFeatures: 00000000
+  m_ActiveFontFeatures: 6e72656b
   m_enableExtraPadding: 0
   checkPaddingRequired: 0
   m_isRichText: 1
@@ -1326,11 +1326,10 @@ MonoBehaviour:
   sceneKey: Assets/Scene/GameScene.unity
   key: Scene
   press: {fileID: 1901895511}
+  pressText: {fileID: 1740155149}
   downloadText: {fileID: 1060557629}
   downloadPersent: {fileID: 1086143998}
   warning: {fileID: 291988945}
-  test: {fileID: 1869024354}
-  text: {fileID: 675844569}
 --- !u!1 &1655229944
 GameObject:
   m_ObjectHideFlags: 0
@@ -1361,7 +1360,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _scriptableObjectInstallers: []
-  _monoInstallers: []
+  _monoInstallers:
+  - {fileID: 0}
   _installerPrefabs: []
   _autoRun: 1
   OnPreInstall:

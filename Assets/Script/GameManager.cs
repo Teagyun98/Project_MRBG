@@ -101,6 +101,8 @@ public class GameManager : MonoBehaviour
 
         // 은행 이자
         udm.GetData().AddSaved(udm.GetData().GetSaved()/100);
+
+        udm.SaveFirebaseDatabase();
     }
 
     public float FirstMonsterPosX(bool dice = false)

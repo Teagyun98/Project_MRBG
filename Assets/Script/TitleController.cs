@@ -1,10 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.U2D;
+using UnityEngine.UI;
 
 public class TitleController : MonoBehaviour
 {
+    [Header("Logo")]
     [SerializeField] private RectTransform title;
     [SerializeField] private PixelPerfectCamera pc;
 

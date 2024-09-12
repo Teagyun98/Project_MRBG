@@ -4,27 +4,34 @@ using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
 using UnityEngine.UI;
+using Zenject;
 
 public class AddressableManager : MonoBehaviour
 {
+    private UserDataManager udm;
+    [Inject]
+    public void Construct(UserDataManager _userDataManager) => udm = _userDataManager;
+
     [Header("ResourceKeys")]
     [SerializeField] private string sceneKey;
 
     [Header("Info")]
     [SerializeField] private string key;
     [SerializeField] private Button press;
+    [SerializeField] private TextMeshProUGUI pressText;
     [SerializeField] private TextMeshProUGUI downloadText;
     [SerializeField] private Slider downloadPersent;
     [SerializeField] private GameObject warning;
 
     private bool download;
-
-    public Image test;
-    public TextMeshProUGUI text;
+    private bool login;
 
     private void Start()
     {
         download = false;
+        login = false;
+
+        pressText.text = "Press Anywhere";
     }
 
     public void Press()
@@ -34,6 +41,12 @@ public class AddressableManager : MonoBehaviour
             press.gameObject.SetActive(false);
 
             DownLoadDependenciesAsync();
+        }
+        if(login == false)
+        {
+            press.gameObject.SetActive(false);
+
+            LoginAsync();
         }
         else
         {
@@ -79,12 +92,11 @@ public class AddressableManager : MonoBehaviour
 
                         if (fileCount == endCount)
                         {
+                            pressText.text = "Login";
                             press.gameObject.SetActive(true);
                             downloadPersent.gameObject.SetActive(false);
 
                             download = true;
-
-                            Test();
                         }
                     }
                     else
@@ -113,8 +125,6 @@ public class AddressableManager : MonoBehaviour
                     downloadPersent.gameObject.SetActive(false);
 
                     download = true;
-
-                    Test();
                 }
             }
         };
@@ -178,24 +188,21 @@ public class AddressableManager : MonoBehaviour
         }
     }
 
-    public void Test()
+    private void LoginAsync()
     {
-        Addressables.LoadAssetAsync<Sprite>("Assets/Image/BankIcon.png").Completed += (sp) => 
+        udm.SignInGPGSFirebase(task => 
         {
-            if (sp.Status == AsyncOperationStatus.Succeeded)
-                test.sprite = sp.Result;
-        };
-
-        Addressables.LoadAssetAsync<Material>("Assets/Material/default.mat").Completed += (ma) =>
-        {
-            if (ma.Status == AsyncOperationStatus.Succeeded)
-                test.material = ma.Result;
-        };
-
-        Addressables.LoadAssetAsync<TMP_FontAsset>("Assets/Font/DungGeunMo SDF.asset").Completed += (ft) =>
-        {
-            if (ft.Status == AsyncOperationStatus.Succeeded)
-                text.font = ft.Result;
-        };
+            if(task == true)
+            {
+                login = true;
+                pressText.text = "Play Game";
+                press.gameObject.SetActive(true);
+            }
+            else
+            {
+                pressText.text = "Login";
+                press.gameObject.SetActive(true);
+            }
+        });
     }
 }

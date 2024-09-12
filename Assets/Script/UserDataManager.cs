@@ -1,6 +1,5 @@
 using System;
 using UnityEngine;
-using System.Collections;
 
 using GooglePlayGames;
 using GooglePlayGames.BasicApi;
@@ -9,51 +8,122 @@ using Firebase.Database;
 using Firebase.Auth;
 using Firebase;
 using Firebase.Extensions;
+using UnityEngine.Events;
 
 public class UserDataManager : MonoBehaviour
 {
     private UserData data;
 
-    private DatabaseReference reference;
     private FirebaseAuth auth;
+    private DatabaseReference databaseReference;
 
     private void Start()
     {
-        reference = FirebaseDatabase.DefaultInstance.RootReference;
+        // 구글 플레이 게임즈 환경 세팅
+        PlayGamesPlatform.InitializeInstance(new PlayGamesClientConfiguration.Builder()
+            .RequestIdToken()
+            .RequestEmail()
+            .Build()
+            );
+
+        PlayGamesPlatform.DebugLogEnabled = true;
+        PlayGamesPlatform.Activate();
+
         auth = FirebaseAuth.DefaultInstance;
 
         FirebaseApp.CheckAndFixDependenciesAsync().ContinueWithOnMainThread(task =>
         {
             if (task.Result == DependencyStatus.Available)
             {
-                PlayGamesPlatform.Instance.Authenticate(status => 
-                {
-                    if (status == SignInStatus.Success)
-                    {
-
-                    }
-                    else
-                    {
-                        Debug.Log("구글 플레이 로그인 실패");
-                    }
-                });
+                databaseReference = FirebaseDatabase.DefaultInstance.RootReference;
             }
             else
                 Debug.Log("연결실패");
         });
-
-        // Unity 소셜 플랫폼을 사용한 로그인
-        //PlayGamesPlatform.Activate();
-        //Social.localUser.Authenticate(ProcessAuthentication);
-
-        SetUserData();
     }
 
-    private IEnumerator FireBaseLogin()
+    public void SignInGPGSFirebase(UnityAction<bool> action)
     {
-        
+        PlayGamesPlatform.Instance.Authenticate(status =>
+        {
+            if (status == true)
+            {
+                string idToken = ((PlayGamesLocalUser)PlayGamesPlatform.Instance.localUser).GetIdToken();
 
-        yield break;
+                Credential credential = GoogleAuthProvider.GetCredential(idToken, null);
+
+                auth.SignInWithCredentialAsync(credential).ContinueWith((task) => 
+                {
+                    if (task.IsCanceled || task.IsFaulted)
+                    {
+                        Debug.Log("Firebase Login Fail");
+                        action?.Invoke(false);
+                    }
+                    else
+                        LoadFirebaseDatabase(action);
+                });
+            }
+            else
+            {
+                Debug.Log("GPGS 로그인 실패");
+                action?.Invoke(false);
+            }
+        });
+    }
+
+    private void LoadFirebaseDatabase(UnityAction<bool> action)
+    {
+        FirebaseUser user = auth.CurrentUser;
+
+        if(user != null)
+        {
+            string userId = user.UserId;
+
+            databaseReference.Child("users").Child(userId).GetValueAsync().ContinueWithOnMainThread(task => 
+            {
+                if(task.IsCompleted)
+                {
+                    DataSnapshot snapshot = task.Result;
+
+                    if(snapshot.Exists)
+                    {
+                        // 데이터 불러오기
+                        data = JsonUtility.FromJson<UserData>(snapshot.GetRawJsonValue());
+                    }
+                    else
+                    {
+                        SetUserData();
+                        SaveFirebaseDatabase();
+                    }
+
+                    action?.Invoke(true);
+                }
+                else
+                {
+                    Debug.Log("Load Fail");
+                    action?.Invoke(false);
+                }
+            });
+        }
+    }
+
+    public void SaveFirebaseDatabase()
+    {
+        FirebaseUser user = auth.CurrentUser;
+
+        if (user != null)
+        {
+            string userId = user.UserId;
+            string json = JsonUtility.ToJson(data, true);
+
+            databaseReference.Child("users").Child(userId).SetRawJsonValueAsync(json).ContinueWithOnMainThread(task =>
+            {
+                if (task.IsCompleted)
+                    Debug.Log("저장 완료");
+                else
+                    Debug.Log("저장 실패 : ");
+            });
+        }
     }
 
     public UserData GetData()
