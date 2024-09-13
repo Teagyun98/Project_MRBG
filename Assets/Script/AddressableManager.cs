@@ -42,7 +42,7 @@ public class AddressableManager : MonoBehaviour
 
             DownLoadDependenciesAsync();
         }
-        if(login == false)
+        else if(login == false)
         {
             press.gameObject.SetActive(false);
 
