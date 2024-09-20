@@ -19,17 +19,7 @@ public class UserDataManager : MonoBehaviour
 
     private void Start()
     {
-        // 구글 플레이 게임즈 환경 세팅
-        PlayGamesPlatform.InitializeInstance(new PlayGamesClientConfiguration.Builder()
-            .RequestIdToken()
-            .RequestEmail()
-            .Build()
-            );
-
-        PlayGamesPlatform.DebugLogEnabled = true;
-        PlayGamesPlatform.Activate();
-
-        auth = FirebaseAuth.DefaultInstance;
+        //SetUserData();
 
         FirebaseApp.CheckAndFixDependenciesAsync().ContinueWithOnMainThread(task =>
         {
@@ -46,21 +36,24 @@ public class UserDataManager : MonoBehaviour
     {
         PlayGamesPlatform.Instance.Authenticate(status =>
         {
-            if (status == true)
+            if (status == SignInStatus.Success)
             {
-                string idToken = ((PlayGamesLocalUser)PlayGamesPlatform.Instance.localUser).GetIdToken();
-
-                Credential credential = GoogleAuthProvider.GetCredential(idToken, null);
-
-                auth.SignInWithCredentialAsync(credential).ContinueWith((task) => 
+                PlayGamesPlatform.Instance.RequestServerSideAccess(false, authCode =>
                 {
-                    if (task.IsCanceled || task.IsFaulted)
+                    auth = FirebaseAuth.DefaultInstance;
+
+                    Credential credential = PlayGamesAuthProvider.GetCredential(authCode);
+
+                    auth.SignInAndRetrieveDataWithCredentialAsync(credential).ContinueWith((task) =>
                     {
-                        Debug.Log("Firebase Login Fail");
-                        action?.Invoke(false);
-                    }
-                    else
-                        LoadFirebaseDatabase(action);
+                        if (task.IsCanceled || task.IsFaulted)
+                        {
+                            Debug.Log("Firebase Login Fail");
+                            action?.Invoke(false);
+                        }
+                        else
+                            LoadFirebaseDatabase(action);
+                    });
                 });
             }
             else

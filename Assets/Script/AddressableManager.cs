@@ -1,3 +1,5 @@
+using GooglePlayGames;
+using GooglePlayGames.BasicApi;
 using System.Collections;
 using TMPro;
 using UnityEngine;
@@ -26,12 +28,23 @@ public class AddressableManager : MonoBehaviour
     private bool download;
     private bool login;
 
+    public Image test;
+    public TextMeshProUGUI text;
+
     private void Start()
     {
         download = false;
         login = false;
 
         pressText.text = "Press Anywhere";
+
+        PlayGamesPlatform.Instance.Authenticate(status => 
+        {
+            if (status == SignInStatus.Success)
+                Debug.Log("성공");
+            else
+                Debug.Log("실패");
+        });
     }
 
     public void Press()
@@ -42,12 +55,12 @@ public class AddressableManager : MonoBehaviour
 
             DownLoadDependenciesAsync();
         }
-        else if(login == false)
-        {
-            press.gameObject.SetActive(false);
+        //else if (login == false)
+        //{
+        //    press.gameObject.SetActive(false);
 
-            LoginAsync();
-        }
+        //    LoginAsync();
+        //}
         else
         {
             LoadScene();
@@ -97,6 +110,9 @@ public class AddressableManager : MonoBehaviour
                             downloadPersent.gameObject.SetActive(false);
 
                             download = true;
+
+                            // Test
+                            Test();
                         }
                     }
                     else
@@ -121,10 +137,14 @@ public class AddressableManager : MonoBehaviour
 
                 if (fileCount == endCount)
                 {
+                    pressText.text = "Login";
                     press.gameObject.SetActive(true);
                     downloadPersent.gameObject.SetActive(false);
 
                     download = true;
+
+                    // Test
+                    Test();
                 }
             }
         };
@@ -190,9 +210,9 @@ public class AddressableManager : MonoBehaviour
 
     private void LoginAsync()
     {
-        udm.SignInGPGSFirebase(task => 
+        udm.SignInGPGSFirebase(task =>
         {
-            if(task == true)
+            if (task == true)
             {
                 login = true;
                 pressText.text = "Play Game";
@@ -204,5 +224,30 @@ public class AddressableManager : MonoBehaviour
                 press.gameObject.SetActive(true);
             }
         });
+    }
+
+    public void Test()
+    {
+        // 테스트 안하면 게임 씬 넘어갈 때 리소스들이 정상적으로 로드되지 않아 Missing나는 현상 발생
+
+        Addressables.LoadAssetAsync<Sprite>("Assets/Image/BankIcon.png").Completed += (sp) =>
+        {
+            if (sp.Status == AsyncOperationStatus.Succeeded)
+                test.sprite = sp.Result;
+        };
+
+        Addressables.LoadAssetAsync<Material>("Assets/Material/default.mat").Completed += (ma) =>
+        {
+            if (ma.Status == AsyncOperationStatus.Succeeded)
+                test.material = ma.Result;
+        };
+
+        Addressables.LoadAssetAsync<TMP_FontAsset>("Assets/Font/DungGeunMo SDF.asset").Completed += (ft) =>
+        {
+            if (ft.Status == AsyncOperationStatus.Succeeded)
+                text.font = ft.Result;
+        };
+
+        //test.gameObject.SetActive(true);
     }
 }

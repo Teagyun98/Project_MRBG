@@ -12,10 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 468a46d0ae32c3544b7d98094e6448a9, type: 3}
   m_Name: AddressableAssetSettings
   m_EditorClassIdentifier: 
-  m_DefaultGroup: 0697421a27d73f54c905fd4315098cff
+  m_DefaultGroup: ee84ff42291dfc64f95e4c7e98104714
   m_currentHash:
     serializedVersion: 2
-    Hash: 10306a18929fb8c53534c73d01e39454
+    Hash: 00000000000000000000000000000000
   m_OptimizeCatalogSize: 0
   m_BuildRemoteCatalog: 1
   m_BundleLocalCatalog: 0
@@ -31,21 +31,21 @@ MonoBehaviour:
   m_DisableVisibleSubAssetRepresentations: 0
   m_ShaderBundleNaming: 0
   m_ShaderBundleCustomNaming: 
-  m_MonoScriptBundleNaming: 0
+  m_MonoScriptBundleNaming: 1
   m_CheckForContentUpdateRestrictionsOption: 0
   m_MonoScriptBundleCustomNaming: 
   m_RemoteCatalogBuildPath:
     m_Id: c48133be38d1c5f4f9a848f1422aa314
   m_RemoteCatalogLoadPath:
     m_Id: 3512c400d34aa8a4684f165027c07340
-  m_ContentStateBuildPathProfileVariableName: <default settings path>
+  m_ContentStateBuildPathProfileVariableName: Remote.BuildPath
   m_CustomContentStateBuildPath: 
   m_ContentStateBuildPath: 
-  m_BuildAddressablesWithPlayerBuild: 0
+  m_BuildAddressablesWithPlayerBuild: 2
   m_overridePlayerVersion: v0
   m_GroupAssets:
   - {fileID: 11400000, guid: 4d394f67858de724688c99826902067a, type: 2}
-  - {fileID: 11400000, guid: 4ef5f37575452f44a89f000915e0609e, type: 2}
+  - {fileID: 11400000, guid: 6b458600f1b376e42b331e2f5257ce2a, type: 2}
   m_BuildSettings:
     m_CompileScriptsInVirtualMode: 0
     m_CleanupStreamingAssetsAfterBuilds: 1
