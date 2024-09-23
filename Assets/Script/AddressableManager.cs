@@ -1,5 +1,3 @@
-using GooglePlayGames;
-using GooglePlayGames.BasicApi;
 using System.Collections;
 using TMPro;
 using UnityEngine;
@@ -30,6 +28,7 @@ public class AddressableManager : MonoBehaviour
 
     public Image test;
     public TextMeshProUGUI text;
+    public bool testPlay;
 
     private void Start()
     {
@@ -37,14 +36,6 @@ public class AddressableManager : MonoBehaviour
         login = false;
 
         pressText.text = "Press Anywhere";
-
-        PlayGamesPlatform.Instance.Authenticate(status => 
-        {
-            if (status == SignInStatus.Success)
-                Debug.Log("성공");
-            else
-                Debug.Log("실패");
-        });
     }
 
     public void Press()
@@ -55,12 +46,22 @@ public class AddressableManager : MonoBehaviour
 
             DownLoadDependenciesAsync();
         }
-        //else if (login == false)
-        //{
-        //    press.gameObject.SetActive(false);
-
-        //    LoginAsync();
-        //}
+        else if (login == false)
+        {
+            // 테스트 모드
+            if(testPlay == true)
+            {
+                udm.SetTestData();
+                login = true;
+                pressText.text = "Play Game";
+                press.gameObject.SetActive(true);
+            }
+            else
+            {
+                press.gameObject.SetActive(false);
+                LoginAsync();
+            }
+        }
         else
         {
             LoadScene();

@@ -17,9 +17,21 @@ public class UserDataManager : MonoBehaviour
     private FirebaseAuth auth;
     private DatabaseReference databaseReference;
 
+    private bool test;
+
     private void Start()
     {
-        //SetUserData();
+        test = false;
+
+        // 구글 플레이 게임즈 환경 세팅
+        PlayGamesPlatform.InitializeInstance(new PlayGamesClientConfiguration.Builder()
+            .RequestIdToken()
+            .RequestEmail()
+            .Build()
+            );
+
+        PlayGamesPlatform.DebugLogEnabled = true;
+        PlayGamesPlatform.Activate();
 
         FirebaseApp.CheckAndFixDependenciesAsync().ContinueWithOnMainThread(task =>
         {
@@ -28,37 +40,43 @@ public class UserDataManager : MonoBehaviour
                 databaseReference = FirebaseDatabase.DefaultInstance.RootReference;
             }
             else
-                Debug.Log("연결실패");
+                CustomDebug.SendLog("연결실패");
         });
     }
 
     public void SignInGPGSFirebase(UnityAction<bool> action)
     {
+        CustomDebug.SendLog("Login");
+
+        // 매번 로그인 채크
         PlayGamesPlatform.Instance.Authenticate(status =>
         {
-            if (status == SignInStatus.Success)
+            if (status == true)
             {
-                PlayGamesPlatform.Instance.RequestServerSideAccess(false, authCode =>
+                CustomDebug.SendLog("GooglePlayLoginSuccese");
+
+                auth = FirebaseAuth.DefaultInstance;
+
+                string authCode = ((PlayGamesLocalUser)PlayGamesPlatform.Instance.localUser).GetIdToken();
+
+                Credential credential = PlayGamesAuthProvider.GetCredential(authCode);
+
+                auth.SignInAndRetrieveDataWithCredentialAsync(credential).ContinueWith((task) =>
                 {
-                    auth = FirebaseAuth.DefaultInstance;
+                    CustomDebug.SendLog("LoginFirebase");
 
-                    Credential credential = PlayGamesAuthProvider.GetCredential(authCode);
-
-                    auth.SignInAndRetrieveDataWithCredentialAsync(credential).ContinueWith((task) =>
+                    if (task.IsCanceled || task.IsFaulted)
                     {
-                        if (task.IsCanceled || task.IsFaulted)
-                        {
-                            Debug.Log("Firebase Login Fail");
-                            action?.Invoke(false);
-                        }
-                        else
-                            LoadFirebaseDatabase(action);
-                    });
+                        CustomDebug.SendLog($"Firebase Login Fail : {task.Exception}");
+                        action?.Invoke(false);
+                    }
+                    else
+                        LoadFirebaseDatabase(action);
                 });
             }
             else
             {
-                Debug.Log("GPGS 로그인 실패");
+                CustomDebug.SendLog($"GPGS 로그인 실패 : {status}");
                 action?.Invoke(false);
             }
         });
@@ -93,7 +111,7 @@ public class UserDataManager : MonoBehaviour
                 }
                 else
                 {
-                    Debug.Log("Load Fail");
+                    CustomDebug.SendLog("Load Fail");
                     action?.Invoke(false);
                 }
             });
@@ -102,6 +120,9 @@ public class UserDataManager : MonoBehaviour
 
     public void SaveFirebaseDatabase()
     {
+        if (test == true)
+            return;
+
         FirebaseUser user = auth.CurrentUser;
 
         if (user != null)
@@ -112,9 +133,9 @@ public class UserDataManager : MonoBehaviour
             databaseReference.Child("users").Child(userId).SetRawJsonValueAsync(json).ContinueWithOnMainThread(task =>
             {
                 if (task.IsCompleted)
-                    Debug.Log("저장 완료");
+                    CustomDebug.SendLog("저장 완료");
                 else
-                    Debug.Log("저장 실패 : ");
+                    CustomDebug.SendLog("저장 실패 : ");
             });
         }
     }
@@ -128,6 +149,13 @@ public class UserDataManager : MonoBehaviour
     {
         data = new UserData("Player");
         data.Init();
+    }
+
+    public void SetTestData()
+    {
+        data = new UserData("Player");
+        data.Init();
+        test = true;
     }
 }
 

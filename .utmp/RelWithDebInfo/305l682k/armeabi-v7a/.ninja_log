@@ -1,5 +1,5 @@
 # ninja log v5
-1	230	7485172994277523	FramePacing/CMakeFiles/swappywrapper.dir/UnitySwappyWrapper.cpp.o	cab509297f0d48d0
-235	401	7485172995957726	D:/Git/Project_MRBG/Library/Bee/Android/Prj/IL2CPP/Gradle/unityLibrary/build/intermediates/cxx/RelWithDebInfo/305l682k/obj/armeabi-v7a/libswappywrapper.so	839f8afab453f849
-2	135	7485258313952844	FramePacing/CMakeFiles/swappywrapper.dir/UnitySwappyWrapper.cpp.o	cab509297f0d48d0
-136	323	7485258315808967	D:/Git/Project_MRBG/Library/Bee/Android/Prj/IL2CPP/Gradle/unityLibrary/build/intermediates/cxx/RelWithDebInfo/305l682k/obj/armeabi-v7a/libswappywrapper.so	839f8afab453f849
+2	123	7487736120336361	FramePacing/CMakeFiles/swappywrapper.dir/UnitySwappyWrapper.cpp.o	cab509297f0d48d0
+124	295	7487736122057577	D:/Git/Project_MRBG/Library/Bee/Android/Prj/IL2CPP/Gradle/unityLibrary/build/intermediates/cxx/RelWithDebInfo/305l682k/obj/armeabi-v7a/libswappywrapper.so	839f8afab453f849
+1	112	7487755627816930	FramePacing/CMakeFiles/swappywrapper.dir/UnitySwappyWrapper.cpp.o	cab509297f0d48d0
+112	224	7487755628885482	D:/Git/Project_MRBG/Library/Bee/Android/Prj/IL2CPP/Gradle/unityLibrary/build/intermediates/cxx/RelWithDebInfo/305l682k/obj/armeabi-v7a/libswappywrapper.so	839f8afab453f849
