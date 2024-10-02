@@ -211,7 +211,7 @@ public class AddressableManager : MonoBehaviour
 
     private void LoginAsync()
     {
-        udm.SignInGPGSFirebase(task =>
+        udm.SignInGPGS(task =>
         {
             if (task == true)
             {
@@ -223,7 +223,7 @@ public class AddressableManager : MonoBehaviour
             {
                 udm.SetTestData();
                 login = true;
-                pressText.text = "Play Test Game";
+                pressText.text = "Test Play Game";
                 press.gameObject.SetActive(true);
             }
         });

@@ -9,6 +9,7 @@ using Firebase.Auth;
 using Firebase;
 using Firebase.Extensions;
 using UnityEngine.Events;
+using System.Collections;
 
 public class UserDataManager : MonoBehaviour
 {
@@ -44,12 +45,12 @@ public class UserDataManager : MonoBehaviour
         });
     }
 
-    public void SignInGPGSFirebase(UnityAction<bool> action)
+    public void SignInGPGS(UnityAction<bool> action)
     {
         CustomDebug.SendLog("Login");
-
+        
         // 매번 로그인 채크
-        PlayGamesPlatform.Instance.Authenticate(status =>
+        Social.localUser.Authenticate(status =>
         {
             if (status == true)
             {
@@ -57,11 +58,11 @@ public class UserDataManager : MonoBehaviour
 
                 auth = FirebaseAuth.DefaultInstance;
 
-                string authCode = ((PlayGamesLocalUser)PlayGamesPlatform.Instance.localUser).GetIdToken();
+                string idToken = ((PlayGamesLocalUser)Social.localUser).GetIdToken();
 
-                Credential credential = PlayGamesAuthProvider.GetCredential(authCode);
+                Credential credential = GoogleAuthProvider.GetCredential(idToken, null);
 
-                auth.SignInAndRetrieveDataWithCredentialAsync(credential).ContinueWith((task) =>
+                auth.SignInWithCredentialAsync(credential).ContinueWith((task) =>
                 {
                     CustomDebug.SendLog("LoginFirebase");
 
@@ -79,7 +80,7 @@ public class UserDataManager : MonoBehaviour
                 CustomDebug.SendLog($"GPGS 로그인 실패 : {status}");
                 action?.Invoke(false);
             }
-        });
+        });        
     }
 
     private void LoadFirebaseDatabase(UnityAction<bool> action)
