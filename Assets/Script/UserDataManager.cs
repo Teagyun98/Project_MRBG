@@ -10,6 +10,8 @@ using Firebase;
 using Firebase.Extensions;
 using UnityEngine.Events;
 using System.Collections;
+using NUnit.Framework;
+using System.Collections.Generic;
 
 public class UserDataManager : MonoBehaviour
 {
@@ -158,14 +160,77 @@ public class UserDataManager : MonoBehaviour
         data.Init();
         test = true;
     }
+
+    private void LoadRanking(UnityAction<Ranking> action)
+    {
+        if (test == true)
+        {
+            action?.Invoke(null);
+            return;
+        }
+
+        FirebaseUser user = auth.CurrentUser;
+
+        Ranking ranking = new Ranking();
+
+        if (user != null)
+        {
+            string userId = user.UserId;
+
+            databaseReference.Child("ranking").GetValueAsync().ContinueWithOnMainThread(task =>
+            {
+                if (task.IsCompleted)
+                {
+                    DataSnapshot snapshot = task.Result;
+
+                    if (snapshot.Exists)
+                    {
+                        // 데이터 불러오기
+                        ranking = JsonUtility.FromJson<Ranking>(snapshot.GetRawJsonValue());
+                    }
+
+                    action?.Invoke(ranking);
+                }
+                else
+                {
+                    action?.Invoke(null);
+                }
+            });
+        }
+    }
+
+    public void SaveRanking(Ranking ranking, UnityAction<bool> action)
+    {
+        if (test == true)
+        {
+            action?.Invoke(false);
+            return;
+        }
+
+        FirebaseUser user = auth.CurrentUser;
+
+        if (user != null)
+        {
+            string userId = user.UserId;
+            string json = JsonUtility.ToJson(ranking, true);
+
+            databaseReference.Child("ranking").SetRawJsonValueAsync(json).ContinueWithOnMainThread(task =>
+            {
+                if (task.IsCompleted)
+                    action?.Invoke(true);
+                else
+                    action?.Invoke(false);
+            });
+        }
+    }
 }
 
 [Serializable]
 public class UserData
 {
-    private string userName;      // 유저 이름
-    private int bettingPoint;       // 유저 보유 BP
-    private int saved;                 // 유저 저금 BP
+    [SerializeField] private string userName;      // 유저 이름
+    [SerializeField] private int bettingPoint;       // 유저 보유 BP
+    [SerializeField] private int saved;                 // 유저 저금 BP
 
     public UserData(string _userName) => userName = _userName;
 
@@ -187,4 +252,22 @@ public class UserData
     public void AddSaved(int _add) {  saved += _add; }
 
     public int GetAllBP() { return bettingPoint + saved; }
+}
+
+[Serializable]
+public class Pair<Tkey, Tvalue>
+{
+    public Tkey key;
+    public Tvalue value;
+}
+
+[Serializable]
+public class Ranking
+{
+    public List<Pair<string, int>> ranking;
+
+    public Ranking()
+    {
+        ranking = new List<Pair<string, int>>();
+    }
 }
