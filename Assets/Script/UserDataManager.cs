@@ -9,8 +9,6 @@ using Firebase.Auth;
 using Firebase;
 using Firebase.Extensions;
 using UnityEngine.Events;
-using System.Collections;
-using NUnit.Framework;
 using System.Collections.Generic;
 
 public class UserDataManager : MonoBehaviour
@@ -161,7 +159,7 @@ public class UserDataManager : MonoBehaviour
         test = true;
     }
 
-    private void LoadRanking(UnityAction<Ranking> action)
+    public void LoadRanking(UnityAction<Ranking> action)
     {
         if (test == true)
         {
@@ -223,6 +221,11 @@ public class UserDataManager : MonoBehaviour
             });
         }
     }
+
+    public string GetUserId()
+    {
+        return Social.localUser.id;
+    }
 }
 
 [Serializable]
@@ -255,19 +258,20 @@ public class UserData
 }
 
 [Serializable]
-public class Pair<Tkey, Tvalue>
+public class RankingData
 {
-    public Tkey key;
-    public Tvalue value;
+    public string userId;
+    public string userName;
+    public int bettingPoint;
 }
 
 [Serializable]
 public class Ranking
 {
-    public List<Pair<string, int>> ranking;
+    public List<RankingData> ranking;
 
     public Ranking()
     {
-        ranking = new List<Pair<string, int>>();
+        ranking = new List<RankingData>();
     }
 }
