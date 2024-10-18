@@ -30,7 +30,7 @@ public class RankingPanel : MonoBehaviour
 
     [Header("RenamePanel")]
     [SerializeField] private TextMeshProUGUI nowNameText;
-    [SerializeField] private InputField inputField;
+    [SerializeField] private TMP_InputField inputField;
 
     private Ranking ranking;
 
@@ -46,24 +46,27 @@ public class RankingPanel : MonoBehaviour
 
         udm.LoadRanking( (_ranking) => 
         {
-            if(_ranking != null)
+            if (_ranking != null)
             {
                 ranking = _ranking;
 
-                foreach(RankingData data in ranking.ranking)
+                foreach (RankingData data in ranking.ranking)
                 {
-                    if(udm.GetUserId() == data.userId)
+                    if (udm.GetUserId() == data.userId)
                     {
                         loadingPanel.SetActive(false);
                         rankingPanel.SetActive(true);
+                        break;
                     }
                     else
                     {
-                        loadingPanel.SetActive(false);
-                        renamePanel?.SetActive(true);
+                        ActiveRenamePanel();
+                        break;
                     }
                 }
             }
+            else
+                loadingText.text = "Can't get data";
         });
     }
 
@@ -72,16 +75,14 @@ public class RankingPanel : MonoBehaviour
 
     }
 
-    private void InitRenamePanel()
-    {
-        // 현재 자기 닉네임 보여주기
-        // 인풋 필드에 자기 닉네임 적어주기
-    }
-
     public void ActiveRenamePanel()
     {
+        loadingPanel.SetActive(false);
         rankingPanel.SetActive(false);
-        InitRenamePanel();
+
+        nowNameText.text = $"Now Name : {udm.GetData().GetUserName()}";
+        inputField.text = string.Empty;
+
         renamePanel.SetActive(true);
     }
 
@@ -89,6 +90,22 @@ public class RankingPanel : MonoBehaviour
     {
         // 바뀐 이름으로 데이터 수정 및 저장
         // 바뀐 이름으로 랭킹 데이터 수정 및 저장
+
+        string newName = inputField.text;
+
+        udm.GetData().SetUserName(newName);
+        
+        foreach(RankingData data in ranking.ranking)
+        {
+            if(udm.GetUserId() == data.userId)
+            {
+                data.userName = newName;
+                break;
+            }    
+        }
+
+        udm.SaveFirebaseDatabase();
+        udm.SaveRanking();
 
         renamePanel.SetActive(false);
         InitRankingPanel();

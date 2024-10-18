@@ -197,27 +197,26 @@ public class UserDataManager : MonoBehaviour
         }
     }
 
-    public void SaveRanking(Ranking ranking, UnityAction<bool> action)
+    public void SaveRanking()
     {
         if (test == true)
-        {
-            action?.Invoke(false);
             return;
-        }
 
         FirebaseUser user = auth.CurrentUser;
 
         if (user != null)
         {
+            Ranking ranking = null;
+
+            // 랭킹 정리
+
             string userId = user.UserId;
             string json = JsonUtility.ToJson(ranking, true);
 
             databaseReference.Child("ranking").SetRawJsonValueAsync(json).ContinueWithOnMainThread(task =>
             {
                 if (task.IsCompleted)
-                    action?.Invoke(true);
-                else
-                    action?.Invoke(false);
+                    CustomDebug.SendLog("랭킹 저장 완료");
             });
         }
     }
