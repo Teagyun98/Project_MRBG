@@ -10,6 +10,7 @@ using Firebase;
 using Firebase.Extensions;
 using UnityEngine.Events;
 using System.Collections.Generic;
+using System.Linq;
 
 public class UserDataManager : MonoBehaviour
 {
@@ -148,13 +149,13 @@ public class UserDataManager : MonoBehaviour
 
     private void SetUserData()
     {
-        data = new UserData("Player");
+        data = new UserData();
         data.Init();
     }
 
     public void SetTestData()
     {
-        data = new UserData("Player");
+        data = new UserData();
         data.Init();
         test = true;
     }
@@ -166,15 +167,12 @@ public class UserDataManager : MonoBehaviour
             action?.Invoke(null);
             return;
         }
-
         FirebaseUser user = auth.CurrentUser;
 
         Ranking ranking = new Ranking();
 
         if (user != null)
         {
-            string userId = user.UserId;
-
             databaseReference.Child("ranking").GetValueAsync().ContinueWithOnMainThread(task =>
             {
                 if (task.IsCompleted)
@@ -187,10 +185,12 @@ public class UserDataManager : MonoBehaviour
                         ranking = JsonUtility.FromJson<Ranking>(snapshot.GetRawJsonValue());
                     }
 
+                    CustomDebug.SendLog("랭킹 불러오기 성공");
                     action?.Invoke(ranking);
                 }
                 else
                 {
+                    CustomDebug.SendLog("랭킹 불러오기 실패");
                     action?.Invoke(null);
                 }
             });
@@ -199,26 +199,33 @@ public class UserDataManager : MonoBehaviour
 
     public void SaveRanking()
     {
-        if (test == true)
+        if (test == true || data.GetUserName() == string.Empty)
             return;
 
-        FirebaseUser user = auth.CurrentUser;
-
-        if (user != null)
+        LoadRanking((rankingData)=> 
         {
             Ranking ranking = null;
 
-            // 랭킹 정리
+            if (rankingData != null)
+                ranking = rankingData;
 
-            string userId = user.UserId;
-            string json = JsonUtility.ToJson(ranking, true);
+            ranking.AddRanking(GetUserId(), data);
+            ranking.SortByBP();
 
-            databaseReference.Child("ranking").SetRawJsonValueAsync(json).ContinueWithOnMainThread(task =>
+            FirebaseUser user = auth.CurrentUser;
+
+            if (user != null)
             {
-                if (task.IsCompleted)
-                    CustomDebug.SendLog("랭킹 저장 완료");
-            });
-        }
+                // 랭킹 정리
+                string json = JsonUtility.ToJson(ranking, true);
+
+                databaseReference.Child("ranking").SetRawJsonValueAsync(json).ContinueWithOnMainThread(task =>
+                {
+                    if (task.IsCompleted)
+                        CustomDebug.SendLog("랭킹 저장 완료");
+                });
+            }
+        });
     }
 
     public string GetUserId()
@@ -234,10 +241,9 @@ public class UserData
     [SerializeField] private int bettingPoint;       // 유저 보유 BP
     [SerializeField] private int saved;                 // 유저 저금 BP
 
-    public UserData(string _userName) => userName = _userName;
-
     public void Init()
     {
+        userName = string.Empty;
         bettingPoint = 100;
         saved = 0;
     }
@@ -272,5 +278,47 @@ public class Ranking
     public Ranking()
     {
         ranking = new List<RankingData>();
+    }
+
+    public void SortByBP()
+    {
+        ranking = ranking.OrderByDescending(data => data.bettingPoint).ToList();
+    }
+
+    public void AddRanking(string _userId, UserData _userData)
+    {
+        for(int i = 0; i < ranking.Count; i++)
+        {
+            if (ranking[i].userId == _userId)
+            {
+                CustomDebug.SendLog("랭킹 갱신");
+
+                if (ranking[i].userName != _userData.GetUserName())
+                    ranking[i].userName = _userData.GetUserName();
+
+                if (ranking[i].bettingPoint != _userData.GetAllBP())
+                    ranking[i].bettingPoint = _userData.GetAllBP();
+
+                return;
+            }
+        }
+
+        ranking.Add(new RankingData()
+        {
+            userId = _userId,
+            userName = _userData.GetUserName(),
+            bettingPoint = _userData.GetAllBP()
+        });
+    }
+
+    public int GetRanking(string _userId)
+    {
+        for (int i = 0; i < ranking.Count; i++)
+        {
+            if (ranking[i].userId == _userId)
+                return i;
+        }
+
+        return 0;
     }
 }

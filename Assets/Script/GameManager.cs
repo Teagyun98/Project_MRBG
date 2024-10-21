@@ -103,6 +103,7 @@ public class GameManager : MonoBehaviour
         udm.GetData().AddSaved(udm.GetData().GetSaved()/100);
 
         udm.SaveFirebaseDatabase();
+        udm.SaveRanking();
     }
 
     public float FirstMonsterPosX(bool dice = false)
