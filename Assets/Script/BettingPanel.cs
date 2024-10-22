@@ -55,10 +55,7 @@ public class BettingPanel : MonoBehaviour
         if (udm.GetData().GetBettingPoint() <= 0)
             hintCo = StartCoroutine(gm.ColorChangeHint(returnBtn));
         else if(first == null || second == null || third == null)
-        {
-            bettingFrm.gameObject.SetActive(true);
             hintCo = StartCoroutine(gm.ColorChangeHint(bettingFrm));
-        }    
         else if(nowBet <= 0)
             hintCo = StartCoroutine(gm.ColorChangeHint(allInBtn));
         else if(raceBtn.gameObject.activeSelf == true)
@@ -80,7 +77,6 @@ public class BettingPanel : MonoBehaviour
 
         returnBtn.GetComponent<Image>().color = color;
         bettingFrm.color = color;
-        bettingFrm.gameObject.SetActive(false);
         allInBtn.GetComponent<Image>().color = color;
         raceBtn.GetComponent<Image>().color = color;
     }
