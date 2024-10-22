@@ -32,8 +32,7 @@ MonoBehaviour:
   - m_GUID: b472616529b7be84db098c495e02c519
     m_Address: Assets/Material
     m_ReadOnly: 0
-    m_SerializedLabels:
-    - Resource
+    m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: b7fd3ed44df42e443860b970f8a443ba
     m_Address: Assets/Font

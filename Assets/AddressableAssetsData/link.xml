@@ -1,6 +1,6 @@
 <linker>
   <assembly fullname="Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
-    <type fullname="Bank" preserve="all" />
+    <type fullname="BankPanel" preserve="all" />
     <type fullname="Bat" preserve="all" />
     <type fullname="BettingPanel" preserve="all" />
     <type fullname="BoxCat" preserve="all" />
@@ -12,10 +12,12 @@
     <type fullname="GameManager" preserve="all" />
     <type fullname="Goblin" preserve="all" />
     <type fullname="Horse" preserve="all" />
+    <type fullname="MenuPanel" preserve="all" />
     <type fullname="Orc" preserve="all" />
     <type fullname="RankingCell" preserve="all" />
     <type fullname="RankingPanel" preserve="all" />
     <type fullname="Reaper" preserve="all" />
+    <type fullname="ScreenShaderEffect" preserve="all" />
     <type fullname="Slime" preserve="all" />
     <type fullname="Worm" preserve="all" />
     <type fullname="BettingCard" preserve="nothing" serialized="true" />

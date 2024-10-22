@@ -135,6 +135,7 @@ public class RankingPanel : MonoBehaviour
         {
             gm.Warning("Please enter 0~15 char");
             ActiveRenamePanel();
+            return;
         }
 
         string censor = newName.Replace(" ", "");
@@ -144,8 +145,8 @@ public class RankingPanel : MonoBehaviour
         {
             gm.Warning("Use the other words");
             ActiveRenamePanel();
+            return;
         }
-
 
         udm.GetData().SetUserName(newName);
 

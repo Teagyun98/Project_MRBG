@@ -1,8 +1,9 @@
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 using Zenject;
 
-public class Bank : MonoBehaviour
+public class BankPanel : MonoBehaviour
 {
     private GameManager gm;
     private UserDataManager udm;
@@ -15,9 +16,48 @@ public class Bank : MonoBehaviour
     [SerializeField] private TextMeshProUGUI saveText;
     [SerializeField] private TextMeshProUGUI takeAllText;
 
+    [SerializeField] private Button returnBtn;
+    [SerializeField] private Button takeAllBtn;
+
+    private Coroutine hintCo;
+
     private void OnEnable()
     {
+        gm.hint += Hint;
+        gm.hintTime = 0f;
+
         SetText();
+    }
+
+    private void OnDisable()
+    {
+        gm.hint -= Hint;
+        ResetHint();
+    }
+
+    private void Hint()
+    {
+        if (udm.GetData().GetBettingPoint() > 0)
+            hintCo = StartCoroutine(gm.ColorChangeHint(returnBtn));
+        else
+            hintCo = StartCoroutine(gm.ColorChangeHint(takeAllBtn));
+    }
+
+    private void ResetHint(bool disable = true)
+    {
+        if(disable == false)
+            gm.hintTime = 0f;
+
+        if(hintCo != null)
+        {
+            StopCoroutine(hintCo);
+            hintCo = null;
+        }
+
+        Color32 color = Color.white;
+
+        returnBtn.GetComponent<Image>().color = color;
+        takeAllBtn.GetComponent<Image>().color = color;
     }
 
     private void SetText()
@@ -55,6 +95,7 @@ public class Bank : MonoBehaviour
         }
 
         SetText();
+        ResetHint(false);
     }
 
     // BP를 빌리는 함수
@@ -93,5 +134,6 @@ public class Bank : MonoBehaviour
         }
 
         SetText();
+        ResetHint(false);
     }
 }

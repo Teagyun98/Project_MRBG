@@ -1,8 +1,11 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Events;
+using UnityEngine.UI;
 using Zenject;
 
 [Serializable]
@@ -34,6 +37,9 @@ public class GameManager : MonoBehaviour
     public bool Race { get; private set; }
     public int GameSpeed { get; private set; }
 
+    public float hintTime;
+    public event UnityAction hint;
+
     private void Start()
     {
         if (PlayerPrefs.HasKey("GameSpeed") == true)
@@ -46,6 +52,22 @@ public class GameManager : MonoBehaviour
 
         GameSet();
         SetBPText();
+
+        hintTime = 0f;
+    }
+
+    private void Update()
+    {
+        if(hintTime >= 0f && Race == false)
+            hintTime += Time.deltaTime;
+
+        if(hintTime > 3f)
+        {
+            if(hint != null)
+                hint?.Invoke();
+
+            hintTime = -1f;
+        }
     }
 
     public void GameSet()
@@ -85,10 +107,6 @@ public class GameManager : MonoBehaviour
 
         // 베팅 패널 세팅은 경주에 참가하는 몬스터를 뽑고 해야함
         bp.Init();
-
-        // 레일에 몬스터들을 세운다.
-        // 각 몬스터들의 상태와 골인 지점을 설정한다.
-        // 베팅 티켓을 초기화 한다.
     }
 
     public void RaceStart()
@@ -194,5 +212,56 @@ public class GameManager : MonoBehaviour
     public void SetBPText()
     {
         bettingPointText.text = $"{udm.GetData().GetBettingPoint()}BP";
+    }
+
+    public IEnumerator ColorChangeHint(Button btn)
+    {
+        bool red = false;
+        Image img = btn.GetComponent<Image>();
+        Color32 color = img.color;
+
+        while(true)
+        {
+            if(red == false)
+            {
+                img.color = new Color32(255, 0, 0, 255);
+                red = true;
+            }
+            else
+            {
+                img.color = color;
+                red = false;
+            }
+
+            if (Race == true)
+                yield break;
+
+            yield return new WaitForSeconds(0.2f);
+        }
+    }
+
+    public IEnumerator ColorChangeHint(Image img)
+    {
+        bool red = false;
+        Color32 color = img.color;
+
+        while (true)
+        {
+            if (red == false)
+            {
+                img.color = new Color32(255, 0, 0, 255);
+                red = true;
+            }
+            else
+            {
+                img.color = color;
+                red = false;
+            }
+
+            if (Race == true)
+                yield break;
+
+            yield return new WaitForSeconds(0.2f);
+        }
     }
 }

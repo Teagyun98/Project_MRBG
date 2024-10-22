@@ -27,6 +27,64 @@ public class BettingPanel : MonoBehaviour
     private MonsterController second;
     private MonsterController third;
 
+    [SerializeField] private Button returnBtn;
+    [SerializeField] private Image bettingFrm;
+    [SerializeField] private Button allInBtn;
+
+    private Coroutine hintCo;
+
+    private void OnEnable()
+    {
+        gm.hint += Hint;
+        gm.hintTime = 0;
+    }
+
+    private void OnDisable()
+    {
+        gm.hint -= Hint;
+        ResetHint();
+    }
+
+    private void Hint()
+    {
+        // bp 있는지 확인
+        // 순위 베팅 했는지 확인
+        // bp를 걸었는지 확인
+        // 레이스 스타트 버튼을 눌렀는지 확인
+
+        if (udm.GetData().GetBettingPoint() <= 0)
+            hintCo = StartCoroutine(gm.ColorChangeHint(returnBtn));
+        else if(first == null || second == null || third == null)
+        {
+            bettingFrm.gameObject.SetActive(true);
+            hintCo = StartCoroutine(gm.ColorChangeHint(bettingFrm));
+        }    
+        else if(nowBet <= 0)
+            hintCo = StartCoroutine(gm.ColorChangeHint(allInBtn));
+        else if(raceBtn.gameObject.activeSelf == true)
+            hintCo = StartCoroutine(gm.ColorChangeHint(raceBtn));
+    }
+
+    private void ResetHint(bool disable = true)
+    {
+        if (disable == false)
+            gm.hintTime = 0f;
+
+        if (hintCo != null)
+        {
+            StopCoroutine(hintCo);
+            hintCo = null;
+        }
+
+        Color32 color = Color.white;
+
+        returnBtn.GetComponent<Image>().color = color;
+        bettingFrm.color = color;
+        bettingFrm.gameObject.SetActive(false);
+        allInBtn.GetComponent<Image>().color = color;
+        raceBtn.GetComponent<Image>().color = color;
+    }
+
     public void Init()
     {
         // 패널 초기화
@@ -110,7 +168,7 @@ public class BettingPanel : MonoBehaviour
         }
 
         // BP가 부족할 때
-        if (udm.GetData().GetBettingPoint() < nowBet + num)
+        if (udm.GetData().GetBettingPoint() < nowBet + num || udm.GetData().GetBettingPoint() == 0)
         {
             gm.Warning("Your not enough BP");
             return;
@@ -195,6 +253,8 @@ public class BettingPanel : MonoBehaviour
             raceBtn.gameObject.SetActive(false);
         else
             raceBtn.gameObject.SetActive(true);
+
+        ResetHint(false);
     }
 
     // 경기가 시작되면 베팅 금액이 빠져나가도록 하는 함수
