@@ -6,11 +6,13 @@ using Zenject;
 
 public class RankingPanel : MonoBehaviour
 {
-    private UserDataManager udm;
     private GameManager gm;
+    private UserDataManager udm;
+
+    [Inject]
+    public void Construct(GameManager _gameManager) => gm = _gameManager;
     [Inject]
     public void Construct(UserDataManager _userDataManager) => udm = _userDataManager;
-    public void Construct(GameManager _gameManager) => gm = _gameManager;
 
     [SerializeField] private GameObject loadingPanel;
     [SerializeField] private GameObject rankingPanel;
@@ -18,7 +20,6 @@ public class RankingPanel : MonoBehaviour
 
     [Header("LoadingPanel")]
     [SerializeField] private TextMeshProUGUI loadingText;
-    [SerializeField] private GameObject reLoadBtn;
 
     [Header("RankingPanel")]
     [SerializeField] private List<RankingCell> cellList;
@@ -80,7 +81,6 @@ public class RankingPanel : MonoBehaviour
         renamePanel.SetActive(false);
 
         loadingPanel.SetActive(true);
-        reLoadBtn.gameObject.SetActive(false);
 
         loadingText.text = "Loading...";
 
@@ -108,7 +108,8 @@ public class RankingPanel : MonoBehaviour
             else
             {
                 loadingText.text = "Can't get data";
-                reLoadBtn.gameObject.SetActive(true);
+
+                gm.ActiveKickPanel();
             }
         });
     }
@@ -165,8 +166,24 @@ public class RankingPanel : MonoBehaviour
         if (changeData == false)
             ranking.AddRanking(udm.GetUserId(), udm.GetData());
 
-        udm.SaveFirebaseDatabase();
-        udm.SaveRanking();
+        udm.SaveFirebaseDatabase((complete) => 
+        {
+            if (complete == false)
+            {
+                gm.ActiveKickPanel();
+                ActiveRenamePanel();
+                return;
+            }
+        });
+        udm.SaveRanking((complete) => 
+        {
+            if (complete == false)
+            {
+                gm.ActiveKickPanel();
+                ActiveRenamePanel();
+                return;
+            }
+        });
 
         ActiveRankingPanel();
     }

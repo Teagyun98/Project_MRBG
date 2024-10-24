@@ -55,7 +55,7 @@ public class UserDataManager : MonoBehaviour
         {
             if (status == true)
             {
-                CustomDebug.SendLog("GooglePlayLoginSuccese");
+                CustomDebug.SendLog("GPGS 로그인 성공");
 
                 auth = FirebaseAuth.DefaultInstance;
 
@@ -106,7 +106,14 @@ public class UserDataManager : MonoBehaviour
                     else
                     {
                         SetUserData();
-                        SaveFirebaseDatabase();
+                        SaveFirebaseDatabase((complete) => 
+                        {
+                            if(complete == false)
+                            {
+                                action?.Invoke(false);
+                                return;
+                            }
+                        });
                     }
 
                     action?.Invoke(true);
@@ -120,7 +127,7 @@ public class UserDataManager : MonoBehaviour
         }
     }
 
-    public void SaveFirebaseDatabase()
+    public void SaveFirebaseDatabase(UnityAction<bool> action)
     {
         if (test == true)
             return;
@@ -135,9 +142,15 @@ public class UserDataManager : MonoBehaviour
             databaseReference.Child("users").Child(userId).SetRawJsonValueAsync(json).ContinueWithOnMainThread(task =>
             {
                 if (task.IsCompleted)
+                {
                     CustomDebug.SendLog("저장 완료");
+                    action?.Invoke(true);
+                }
                 else
-                    CustomDebug.SendLog("저장 실패 : ");
+                {
+                    CustomDebug.SendLog("저장 실패");
+                    action?.Invoke(false);
+                }
             });
         }
     }
@@ -197,7 +210,7 @@ public class UserDataManager : MonoBehaviour
         }
     }
 
-    public void SaveRanking()
+    public void SaveRanking(UnityAction<bool> action)
     {
         if (test == true || data.GetUserName() == string.Empty)
             return;
@@ -222,7 +235,15 @@ public class UserDataManager : MonoBehaviour
                 databaseReference.Child("ranking").SetRawJsonValueAsync(json).ContinueWithOnMainThread(task =>
                 {
                     if (task.IsCompleted)
+                    {
                         CustomDebug.SendLog("랭킹 저장 완료");
+                        action?.Invoke(true);
+                    }
+                    else
+                    {
+                        CustomDebug.SendLog("랭킹 저장 실패");
+                        action?.Invoke(false);
+                    }
                 });
             }
         });

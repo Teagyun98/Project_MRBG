@@ -5,6 +5,7 @@ using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using Zenject;
 
@@ -30,6 +31,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject warningPanel;
     [SerializeField] private TextMeshProUGUI warningText;
     [SerializeField] private TextMeshProUGUI bettingPointText;
+    [SerializeField] private GameObject kickPanel;
 
     public List<MonsterController> ReadyMonsterList { get; private set; }
     public List<MonsterController> RankingList { get; private set; }
@@ -118,10 +120,18 @@ public class GameManager : MonoBehaviour
         bp.BuyTicket();
 
         // 은행 이자
-        udm.GetData().AddSaved(udm.GetData().GetSaved()/100);
+        udm.GetData().AddSaved(udm.GetData().GetSaved()/20);
 
-        udm.SaveFirebaseDatabase();
-        udm.SaveRanking();
+        udm.SaveFirebaseDatabase((complete) => 
+        {
+            if (complete == false)
+                ActiveKickPanel();
+        });
+        udm.SaveRanking((complete) => 
+        {
+            if (complete == false)
+                ActiveKickPanel();
+        });
     }
 
     public float FirstMonsterPosX(bool dice = false)
@@ -263,5 +273,15 @@ public class GameManager : MonoBehaviour
 
             yield return new WaitForSeconds(0.2f);
         }
+    }
+
+    public void ActiveKickPanel()
+    {
+        kickPanel.SetActive(true);
+    }
+
+    public void MoveTitleScene()
+    {
+        SceneManager.LoadScene("TitleScene");
     }
 }

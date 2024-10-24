@@ -7,11 +7,14 @@ public class BankPanel : MonoBehaviour
 {
     private GameManager gm;
     private UserDataManager udm;
+    private AdManager adm;
 
     [Inject]
     public void Construct(GameManager _gameManager) => gm = _gameManager;
     [Inject]
     public void Construct(UserDataManager _userDataManager) => udm = _userDataManager;
+    [Inject]
+    public void Construct(AdManager _adManager) => adm = _adManager;
 
     [SerializeField] private TextMeshProUGUI saveText;
     [SerializeField] private TextMeshProUGUI takeAllText;
@@ -19,12 +22,25 @@ public class BankPanel : MonoBehaviour
     [SerializeField] private Button returnBtn;
     [SerializeField] private Button takeAllBtn;
 
+    [Header("AdPop")]
+    [SerializeField] private GameObject adPop;
+    [SerializeField] private TextMeshProUGUI popTotalBpText;
+
     private Coroutine hintCo;
 
     private void OnEnable()
     {
         gm.hint += Hint;
-        gm.hintTime = 0f;
+
+        if (gm.Race == false && udm.GetData().GetAllBP() < 0)
+        {
+            popTotalBpText.text = $"Total : {udm.GetData().GetAllBP()}";
+            adPop.SetActive(true);
+        }
+        else
+        {
+            gm.hintTime = 0f;
+        }
 
         SetText();
     }
@@ -43,7 +59,7 @@ public class BankPanel : MonoBehaviour
             hintCo = StartCoroutine(gm.ColorChangeHint(takeAllBtn));
     }
 
-    private void ResetHint(bool disable = true)
+    public void ResetHint(bool disable = true)
     {
         if(disable == false)
             gm.hintTime = 0f;
@@ -135,5 +151,21 @@ public class BankPanel : MonoBehaviour
 
         SetText();
         ResetHint(false);
+    }
+
+    public void ViewAd()
+    {
+        if (gm.Race == true)
+        {
+            gm.Warning("It can't be done during a race.");
+            return;
+        }
+
+        //adm.ViewAd(() => 
+        //{
+        //    adPop.SetActive(false);
+        //    SetText();
+        //    ResetHint(false);
+        //});
     }
 }

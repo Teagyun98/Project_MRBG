@@ -241,8 +241,16 @@ public class BettingPanel : MonoBehaviour
 
         // 결과를 데이터에 저장
         udm.GetData().AddBettingPoint(reward);
-        udm.SaveFirebaseDatabase();
-        udm.SaveRanking();
+        udm.SaveFirebaseDatabase((complete) => 
+        {
+            if(complete == false)
+                gm.ActiveKickPanel();                
+        });
+        udm.SaveRanking((complete) => 
+        {
+            if( complete == false )
+                gm.ActiveKickPanel();
+        });
     }
 
     // 경기를 시작할 수 있는지 확인하는 함수
