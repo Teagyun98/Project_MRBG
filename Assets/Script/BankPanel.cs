@@ -161,11 +161,11 @@ public class BankPanel : MonoBehaviour
             return;
         }
 
-        //adm.ViewAd(() => 
-        //{
-        //    adPop.SetActive(false);
-        //    SetText();
-        //    ResetHint(false);
-        //});
+        adm.ViewAd(() =>
+        {
+            adPop.SetActive(false);
+            SetText();
+            ResetHint(false);
+        });
     }
 }
