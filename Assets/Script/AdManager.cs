@@ -44,7 +44,7 @@ public class AdManager : MonoBehaviour
                 return;
             }
 
-            CustomDebug.SendLog("광고 로드 성공 : " + ad.GetResponseInfo());
+            CustomDebug.SendLog("광고 로드 성공");
 
             this.ad = ad;
 
