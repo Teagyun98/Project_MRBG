@@ -241,6 +241,9 @@ public class BettingPanel : MonoBehaviour
 
         // 결과를 데이터에 저장
         udm.GetData().AddBettingPoint(reward);
+        gm.SetBPText();
+
+        // 서버 저장
         udm.SaveFirebaseDatabase((complete) => 
         {
             if(complete == false)

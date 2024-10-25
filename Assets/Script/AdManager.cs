@@ -40,7 +40,7 @@ public class AdManager : MonoBehaviour
         {
             if (error != null || ad == null)
             {
-                CustomDebug.SendLog("광고 로드 실패 : " + error);
+                CustomDebug.SendLog("광고 로드 실패");
                 return;
             }
 
@@ -62,7 +62,15 @@ public class AdManager : MonoBehaviour
                 if (reward != null)
                 {
                     // 보상
-                    udm.GetData().AddBettingPoint(1000);
+                    int rewardBP = 1000;
+
+                    if(udm.GetData().GetSaved() < 0)
+                    {
+                        rewardBP += udm.GetData().GetSaved();
+                        udm.GetData().SetSaved(0);
+                    }
+
+                    udm.GetData().AddBettingPoint(rewardBP);
                     udm.SaveFirebaseDatabase((complete) =>
                     {
                         if (complete == false)
