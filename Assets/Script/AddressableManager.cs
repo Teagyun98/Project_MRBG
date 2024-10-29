@@ -232,8 +232,7 @@ public class AddressableManager : MonoBehaviour
     public void Test()
     {
         // 테스트 안하면 게임 씬 넘어갈 때 리소스들이 정상적으로 로드되지 않아 Missing나는 현상 발생
-
-        Addressables.LoadAssetAsync<Sprite>("Assets/Image/BankIcon.png").Completed += (sp) =>
+        Addressables.LoadAssetAsync<Sprite>("Assets/Image/SpriteAtlas.png[Bank]").Completed += (sp) =>
         {
             if (sp.Status == AsyncOperationStatus.Succeeded)
                 test.sprite = sp.Result;

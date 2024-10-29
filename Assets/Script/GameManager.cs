@@ -185,7 +185,7 @@ public class GameManager : MonoBehaviour
         display.Set(RankingList.Count - 1, monster.GetIcon());
 
         if (RankingList.Count == ReadyMonsterList.Count)
-            bp.GetResult();
+            bp.GetResult(RankingList);
         else
         {
             foreach (MonsterController other in ReadyMonsterList)

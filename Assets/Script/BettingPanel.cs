@@ -18,8 +18,7 @@ public class BettingPanel : MonoBehaviour
     [SerializeField] private List<BettingCard> cardList;
     [SerializeField] private TextMeshProUGUI betBP;
     [SerializeField] private Button raceBtn;
-    [SerializeField] private GameObject resultPanel;
-    [SerializeField] private TextMeshProUGUI resultText;
+    [SerializeField] private ResultPanel resultPanel;
 
     private int nowBet;
 
@@ -209,7 +208,7 @@ public class BettingPanel : MonoBehaviour
     }
 
     // 경기의 결과를 보여주는 함수
-    public void GetResult()
+    public void GetResult(List<MonsterController> raceResultList)
     {
         int reward = nowBet;
 
@@ -232,12 +231,18 @@ public class BettingPanel : MonoBehaviour
                 reward *= 4;
         }
 
+        List<MonsterController> betMonsterList = new List<MonsterController> 
+        {
+            first,
+            second,
+            third
+        };
+
         // 결과를 알려주는 팝업 활성화
-        resultText.text = reward == 0 ? $"-{nowBet}BP" : $"+{reward}BP";
-        resultPanel.SetActive(true);
+        resultPanel.SetResultPanel(nowBet, raceResultList, betMonsterList, reward);
 
         // 경고 메세지로 한번 더 알려줌
-        gm.Warning(resultText.text);
+        gm.Warning(reward == 0 ? $"-{nowBet}BP" : $"+{reward}BP");
 
         // 결과를 데이터에 저장
         udm.GetData().AddBettingPoint(reward);
