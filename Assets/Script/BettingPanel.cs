@@ -204,7 +204,7 @@ public class BettingPanel : MonoBehaviour
     // 베팅 금액 텍스트 초기화 함수
     private void SetBetBP()
     {
-        betBP.text = $"Bet:{nowBet}BP";
+        betBP.text = $"Bet:</color = green>{nowBet}</color>BP";
     }
 
     // 경기의 결과를 보여주는 함수

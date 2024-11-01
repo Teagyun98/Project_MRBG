@@ -221,9 +221,7 @@ public class AddressableManager : MonoBehaviour
             }
             else
             {
-                udm.SetTestData();
-                login = true;
-                pressText.text = "Test Play Game";
+                pressText.text = "Login";
                 press.gameObject.SetActive(true);
             }
         });
