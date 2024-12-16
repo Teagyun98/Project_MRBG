@@ -1218,6 +1218,7 @@ MonoBehaviour:
   warningText: {fileID: 1802810545}
   bettingPointText: {fileID: 1328382010}
   kickPanel: {fileID: 2041805116}
+  rankingBtn: {fileID: 1376590815}
   hintTime: 0
 --- !u!4 &71742273
 Transform:

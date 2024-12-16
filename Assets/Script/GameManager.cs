@@ -32,6 +32,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI warningText;
     [SerializeField] private TextMeshProUGUI bettingPointText;
     [SerializeField] private GameObject kickPanel;
+    [SerializeField] private GameObject rankingBtn;
 
     public List<MonsterController> ReadyMonsterList { get; private set; }
     public List<MonsterController> RankingList { get; private set; }
@@ -56,6 +57,9 @@ public class GameManager : MonoBehaviour
         SetBPText();
 
         hintTime = 0f;
+
+        if (udm.LoginCheck() == false)
+            rankingBtn.SetActive(false);
     }
 
     private void Update()

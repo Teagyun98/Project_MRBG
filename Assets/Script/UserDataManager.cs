@@ -1,5 +1,8 @@
 using System;
 using UnityEngine;
+using System.Collections.Generic;
+using System.Linq;
+using UnityEngine.Events;
 
 using GooglePlayGames;
 using GooglePlayGames.BasicApi;
@@ -8,9 +11,6 @@ using Firebase.Database;
 using Firebase.Auth;
 using Firebase;
 using Firebase.Extensions;
-using UnityEngine.Events;
-using System.Collections.Generic;
-using System.Linq;
 
 public class UserDataManager : MonoBehaviour
 {
@@ -88,46 +88,35 @@ public class UserDataManager : MonoBehaviour
     {
         FirebaseUser user = auth.CurrentUser;
 
-        if(user != null)
+        if (user != null)
         {
-            FirebaseDatabase.DefaultInstance.GetReference(".info/connected").GetValueAsync().ContinueWithOnMainThread(task =>
+            string userId = user.UserId;
+
+            databaseReference.Child("users").Child(userId).GetValueAsync().ContinueWithOnMainThread(task =>
             {
-                if(task.IsCompleted && (bool)task.Result.Value == true)
+                if (task.IsCompleted)
                 {
-                    string userId = user.UserId;
+                    DataSnapshot snapshot = task.Result;
 
-                    databaseReference.Child("users").Child(userId).GetValueAsync().ContinueWithOnMainThread(task =>
+                    if (snapshot.Exists)
                     {
-                        if (task.IsCompleted)
+                        // 데이터 불러오기
+                        data = JsonUtility.FromJson<UserData>(snapshot.GetRawJsonValue());
+                    }
+                    else
+                    {
+                        SetUserData();
+                        SaveFirebaseDatabase((complete) =>
                         {
-                            DataSnapshot snapshot = task.Result;
-
-                            if (snapshot.Exists)
+                            if (complete == false)
                             {
-                                // 데이터 불러오기
-                                data = JsonUtility.FromJson<UserData>(snapshot.GetRawJsonValue());
+                                action?.Invoke(false);
+                                return;
                             }
-                            else
-                            {
-                                SetUserData();
-                                SaveFirebaseDatabase((complete) =>
-                                {
-                                    if (complete == false)
-                                    {
-                                        action?.Invoke(false);
-                                        return;
-                                    }
-                                });
-                            }
+                        });
+                    }
 
-                            action?.Invoke(true);
-                        }
-                        else
-                        {
-                            CustomDebug.SendLog("Load Fail");
-                            action?.Invoke(false);
-                        }
-                    });
+                    action?.Invoke(true);
                 }
                 else
                 {
@@ -152,26 +141,15 @@ public class UserDataManager : MonoBehaviour
 
         if (user != null)
         {
-            FirebaseDatabase.DefaultInstance.GetReference(".info/connected").GetValueAsync().ContinueWithOnMainThread(task =>
-            {
-                if (task.IsCompleted && (bool)task.Result.Value)
-                {
-                    string userId = user.UserId;
-                    string json = JsonUtility.ToJson(data, true);
+            string userId = user.UserId;
+            string json = JsonUtility.ToJson(data, true);
 
-                    databaseReference.Child("users").Child(userId).SetRawJsonValueAsync(json).ContinueWithOnMainThread(task =>
-                    {
-                        if (task.IsCompleted)
-                        {
-                            CustomDebug.SendLog("저장 완료");
-                            action?.Invoke(true);
-                        }
-                        else
-                        {
-                            CustomDebug.SendLog("저장 실패");
-                            action?.Invoke(false);
-                        }
-                    });
+            databaseReference.Child("users").Child(userId).SetRawJsonValueAsync(json).ContinueWithOnMainThread(task =>
+            {
+                if (task.IsCompleted)
+                {
+                    CustomDebug.SendLog("저장 완료");
+                    action?.Invoke(true);
                 }
                 else
                 {
@@ -218,31 +196,21 @@ public class UserDataManager : MonoBehaviour
 
         if (user != null)
         {
-            FirebaseDatabase.DefaultInstance.GetReference(".info/connected").GetValueAsync().ContinueWithOnMainThread(task =>
+
+            databaseReference.Child("ranking").GetValueAsync().ContinueWithOnMainThread(task =>
             {
-                if (task.IsCompleted && (bool)task.Result.Value)
+                if (task.IsCompleted)
                 {
-                    databaseReference.Child("ranking").GetValueAsync().ContinueWithOnMainThread(task =>
+                    DataSnapshot snapshot = task.Result;
+
+                    if (snapshot.Exists)
                     {
-                        if (task.IsCompleted)
-                        {
-                            DataSnapshot snapshot = task.Result;
+                        // 데이터 불러오기
+                        ranking = JsonUtility.FromJson<Ranking>(snapshot.GetRawJsonValue());
+                    }
 
-                            if (snapshot.Exists)
-                            {
-                                // 데이터 불러오기
-                                ranking = JsonUtility.FromJson<Ranking>(snapshot.GetRawJsonValue());
-                            }
-
-                            CustomDebug.SendLog("랭킹 불러오기 성공");
-                            action?.Invoke(ranking);
-                        }
-                        else
-                        {
-                            CustomDebug.SendLog("랭킹 불러오기 실패");
-                            action?.Invoke(null);
-                        }
-                    });
+                    CustomDebug.SendLog("랭킹 불러오기 성공");
+                    action?.Invoke(ranking);
                 }
                 else
                 {
@@ -263,11 +231,11 @@ public class UserDataManager : MonoBehaviour
         if (test == true || data.GetUserName() == string.Empty)
             return;
 
-        LoadRanking((rankingData)=> 
+        LoadRanking((rankingData) =>
         {
             Ranking ranking = null;
 
-            if (rankingData != null) 
+            if (rankingData != null)
                 ranking = rankingData;
 
             ranking.AddRanking(GetUserId(), data);
@@ -277,26 +245,16 @@ public class UserDataManager : MonoBehaviour
 
             if (user != null)
             {
-                FirebaseDatabase.DefaultInstance.GetReference(".info/connected").GetValueAsync().ContinueWithOnMainThread(task =>
-                {
-                    if (task.IsCompleted && (bool)task.Result.Value)
-                    {
-                        // 랭킹 정리
-                        string json = JsonUtility.ToJson(ranking, true);
 
-                        databaseReference.Child("ranking").SetRawJsonValueAsync(json).ContinueWithOnMainThread(task =>
-                        {
-                            if (task.IsCompleted)
-                            {
-                                CustomDebug.SendLog("랭킹 저장 완료");
-                                action?.Invoke(true);
-                            }
-                            else
-                            {
-                                CustomDebug.SendLog("랭킹 저장 실패");
-                                action?.Invoke(false);
-                            }
-                        });
+                // 랭킹 정리
+                string json = JsonUtility.ToJson(ranking, true);
+
+                databaseReference.Child("ranking").SetRawJsonValueAsync(json).ContinueWithOnMainThread(task =>
+                {
+                    if (task.IsCompleted)
+                    {
+                        CustomDebug.SendLog("랭킹 저장 완료");
+                        action?.Invoke(true);
                     }
                     else
                     {
@@ -311,6 +269,33 @@ public class UserDataManager : MonoBehaviour
                 action?.Invoke(false);
             }
         });
+    }
+
+    public void ConnectCheck(UnityAction<bool> action)
+    {
+        FirebaseUser user = auth.CurrentUser;
+
+        if (user != null)
+        {
+            FirebaseDatabase.DefaultInstance.GetReference(".info/connected").GetValueAsync().ContinueWithOnMainThread(task =>
+            {
+                if (task.IsCompleted && (bool)task.Result.Value)
+                {
+                    action?.Invoke(true);
+                }
+                else
+                {
+                    action?.Invoke(false);
+                }
+            });
+        }
+    }
+
+    public bool LoginCheck()
+    {
+        FirebaseUser user = auth.CurrentUser;
+
+        return user == null ? false : true;
     }
 
     public string GetUserId()

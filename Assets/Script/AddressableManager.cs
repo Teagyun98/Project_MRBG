@@ -48,19 +48,8 @@ public class AddressableManager : MonoBehaviour
         }
         else if (login == false)
         {
-            // 테스트 모드
-            if(testPlay == true)
-            {
-                udm.SetTestData();
-                login = true;
-                pressText.text = "Play Game";
-                press.gameObject.SetActive(true);
-            }
-            else
-            {
-                press.gameObject.SetActive(false);
-                LoginAsync();
-            }
+            press.gameObject.SetActive(false);
+            LoginAsync();
         }
         else
         {
@@ -215,15 +204,16 @@ public class AddressableManager : MonoBehaviour
         {
             if (task == true)
             {
-                login = true;
                 pressText.text = "Play Game";
-                press.gameObject.SetActive(true);
             }
             else
             {
-                pressText.text = "Login";
-                press.gameObject.SetActive(true);
+                pressText.text = "Play Local Game";
+                udm.SetTestData();
             }
+
+            login = true;
+            press.gameObject.SetActive(true);
         });
     }
 
