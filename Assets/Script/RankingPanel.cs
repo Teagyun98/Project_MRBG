@@ -166,21 +166,12 @@ public class RankingPanel : MonoBehaviour
         if (changeData == false)
             ranking.AddRanking(udm.GetUserId(), udm.GetData());
 
-        udm.SaveFirebaseDatabase((complete) => 
-        {
-            if (complete == false)
-            {
-                gm.ActiveKickPanel();
-                ActiveRenamePanel();
-                return;
-            }
-        });
+        udm.SaveGameData();
         udm.SaveRanking((complete) => 
         {
             if (complete == false)
             {
-                gm.ActiveKickPanel();
-                ActiveRenamePanel();
+                ActiveLoadingPanel();
                 return;
             }
         });

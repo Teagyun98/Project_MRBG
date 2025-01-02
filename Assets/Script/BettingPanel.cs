@@ -249,16 +249,8 @@ public class BettingPanel : MonoBehaviour
         gm.SetBPText();
 
         // 서버 저장
-        udm.SaveFirebaseDatabase((complete) => 
-        {
-            if(complete == false)
-                gm.ActiveKickPanel();                
-        });
-        udm.SaveRanking((complete) => 
-        {
-            if( complete == false )
-                gm.ActiveKickPanel();
-        });
+        udm.SaveGameData();
+        udm.SaveRanking(null);
     }
 
     // 경기를 시작할 수 있는지 확인하는 함수

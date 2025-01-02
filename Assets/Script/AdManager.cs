@@ -71,20 +71,8 @@ public class AdManager : MonoBehaviour
                     }
 
                     udm.GetData().AddBettingPoint(rewardBP);
-                    udm.SaveFirebaseDatabase((complete) =>
-                    {
-                        if (complete == false)
-                        {
-                            gm.ActiveKickPanel();
-                        }
-                    });
-                    udm.SaveRanking((complete) =>
-                    {
-                        if (complete == false)
-                        {
-                            gm.ActiveKickPanel();
-                        }
-                    });
+                    udm.SaveGameData();
+                    udm.SaveRanking(null);
 
                     action?.Invoke();
                 }

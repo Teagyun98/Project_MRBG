@@ -208,8 +208,7 @@ public class AddressableManager : MonoBehaviour
             }
             else
             {
-                pressText.text = "Play Local Game";
-                udm.SetTestData();
+                pressText.text = "Play Game";
             }
 
             login = true;
